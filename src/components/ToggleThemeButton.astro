@@ -1,0 +1,31 @@
+---
+
+---
+
+<button
+  id="toggle-button"
+  class="p-2 rounded bg-sky-400 dark:bg-blue-200 cursor-pointer"
+  >Toggle theme</button
+>
+
+<script>
+  import { DARK_THEME, SITE_THEME_KEY, LIGHT_THEME } from "../consts";
+
+  function toggleTheme() {
+    const isDark =
+      localStorage.getItem(SITE_THEME_KEY) === DARK_THEME ||
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const currentTheme = isDark ? LIGHT_THEME : DARK_THEME;
+    const previousTheme = isDark ? DARK_THEME : LIGHT_THEME;
+
+    localStorage.setItem(SITE_THEME_KEY, currentTheme);
+
+    document.documentElement.classList.remove(previousTheme);
+    document.documentElement.classList.add(currentTheme);
+  }
+
+  document
+    .getElementById("toggle-button")!
+    .addEventListener("click", toggleTheme);
+</script>
