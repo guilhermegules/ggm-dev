@@ -44,10 +44,15 @@ const posts = (await getCollection("blog"))
         </p>
       </section>
 
-      <section>
+      <section class="grid gap-6">
         <h2 class="mb-8">Novidades no Blog</h2>
         <BlogPostList posts={posts} isAllCardsSmall />
-        <button class="uppercase bg-gray-800">Ver todos os posts</button>
+        <div class="flex items-center justify-center">
+          <button
+            class="uppercase bg-gray-800 text-white py-4 px-8 rounded-2xl cursor-pointer"
+            >Ver todos os posts</button
+          >
+        </div>
       </section>
     </main>
     <Footer />
