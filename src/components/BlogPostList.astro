@@ -1,0 +1,120 @@
+---
+import type { InferEntrySchema, RenderedContent } from "astro:content";
+import FormattedDate from "./FormattedDate.astro";
+
+interface Props {
+  posts: {
+    id: string;
+    body?: string;
+    collection: "blog";
+    data: InferEntrySchema<"blog">;
+    rendered?: RenderedContent;
+    filePath?: string;
+  }[];
+  isAllCardsSmall?: boolean;
+}
+
+const { posts, isAllCardsSmall = false } = Astro.props;
+---
+
+<ul>
+  {
+    posts.map((post) => (
+      <li class={isAllCardsSmall ? "" : "first-child-bigger"}>
+        <a href={`/blog/${post.id}/`}>
+          <img
+            width={720}
+            height={360}
+            src={post.data.heroImage}
+            alt={post.data.description}
+          />
+          <h4 class="title">{post.data.title}</h4>
+          <p class="date">
+            <FormattedDate date={post.data.pubDate} />
+          </p>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul li {
+    width: calc(50% - 1rem);
+  }
+
+  ul li * {
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+
+  ul li img {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+  }
+
+  ul li a {
+    display: block;
+  }
+
+  ul li a:hover h4,
+  ul li a:hover .date {
+    color: rgb(var(--accent));
+  }
+
+  ul a:hover img {
+    box-shadow: var(--box-shadow);
+  }
+
+  ul li.first-child-bigger:first-child {
+    width: 100%;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  ul li.first-child-bigger:first-child img {
+    width: 100%;
+  }
+
+  ul li.first-child-bigger:first-child .title {
+    font-size: 2.369rem;
+  }
+
+  .title {
+    margin: 0;
+    color: rgb(var(--black));
+    line-height: 1;
+  }
+  .date {
+    margin: 0;
+    color: rgb(var(--gray));
+  }
+
+  @media (max-width: 720px) {
+    ul {
+      gap: 0.5em;
+    }
+
+    ul li {
+      width: 100%;
+      text-align: center;
+    }
+
+    ul li:first-child {
+      margin-bottom: 0;
+    }
+
+    ul li:first-child .title {
+      font-size: 1.563em;
+    }
+  }
+</style>

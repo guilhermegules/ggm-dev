@@ -1,0 +1,10 @@
+.home__hello {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  img {
+    border-radius: 40px;
+  }
+}
