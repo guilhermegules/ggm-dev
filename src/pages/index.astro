@@ -48,9 +48,10 @@ const posts = (await getCollection("blog"))
         <h2 class="mb-8">Novidades no Blog</h2>
         <BlogPostList posts={posts} isAllCardsSmall />
         <div class="flex items-center justify-center">
-          <button
-            class="uppercase bg-gray-800 text-white py-4 px-8 rounded-2xl cursor-pointer"
-            >Ver todos os posts</button
+          <a
+            href="/blog"
+            class="uppercase bg-gray-800 !text-white py-4 px-8 rounded-2xl cursor-pointer"
+            >Ver todos os posts</a
           >
         </div>
       </section>
