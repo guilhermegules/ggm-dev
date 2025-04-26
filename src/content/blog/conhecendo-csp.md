@@ -2,7 +2,7 @@
 title: "Conhecendo Content Security Policy (CSP)"
 description: "A segurança na web é uma preocupação constante. Todos os dias, milhares de sites são comprometidos por ataques como Cross-Site Scripting (XSS), permitindo que invasores executem scripts maliciosos em páginas legítimas."
 pubDate: "Feb 08 2025"
-heroImage: "/blog-placeholder-3.jpg"
+heroImage: "/blog-cover-default.png"
 ---
 
 A segurança na web é uma preocupação constante. Todos os dias, milhares de sites são comprometidos por ataques como **Cross-Site Scripting (XSS)**, permitindo que invasores executem scripts maliciosos em páginas legítimas.
