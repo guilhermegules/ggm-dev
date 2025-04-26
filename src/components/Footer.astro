@@ -1,8 +1,16 @@
 ---
 const today = new Date();
+
+interface Props {
+  isFooterFixed?: boolean;
+}
+
+const { isFooterFixed } = Astro.props;
 ---
 
-<footer class="bg-gray-800 text-white text-center p-2">
+<footer
+  class={`bg-gray-800 text-white text-center p-2 ${isFooterFixed ? "absolute bottom-0 w-full" : ""}`}
+>
   &copy; {today.getFullYear()} - Todos os bugs corrigidos (ou quase) | Criado por
   Guilherme Gules Moreira
 </footer>

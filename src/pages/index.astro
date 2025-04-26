@@ -6,6 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import "../styles/home.style.css";
 import { getCollection } from "astro:content";
 import BlogPostList from "../components/BlogPostList.astro";
+import Anchor from "../components/Anchor.astro";
 
 const posts = (await getCollection("blog"))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -48,11 +49,7 @@ const posts = (await getCollection("blog"))
         <h2 class="mb-8">Novidades no Blog</h2>
         <BlogPostList posts={posts} isAllCardsSmall />
         <div class="flex items-center justify-center">
-          <a
-            href="/blog"
-            class="uppercase bg-gray-800 !text-white py-4 px-8 rounded-2xl cursor-pointer"
-            >Ver todos os posts</a
-          >
+          <Anchor href="/blog">Ver todos os posts</Anchor>
         </div>
       </section>
     </main>

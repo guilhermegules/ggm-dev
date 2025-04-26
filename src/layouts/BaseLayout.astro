@@ -3,7 +3,15 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
-const { title, description } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  footer?: {
+    isFixed?: boolean;
+  };
+}
+
+const { title, description, footer } = Astro.props;
 ---
 
 <html lang="en">
@@ -16,6 +24,6 @@ const { title, description } = Astro.props;
     <section class="my-16 flex items-center justify-center flex-col px-40">
       <slot />
     </section>
-    <Footer />
+    <Footer isFooterFixed={footer?.isFixed} />
   </body>
 </html>

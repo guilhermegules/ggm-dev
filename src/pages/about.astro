@@ -1,37 +1,62 @@
 ---
+import Anchor from "../components/Anchor.astro";
 import Layout from "../layouts/BaseLayout.astro";
+import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 ---
 
-<Layout title="About Me" description="Olá saiba um pouco mais sobre mim">
-  <div class="flex items-center gap-6 mb-8">
-    <img src="me.jpg" alt="" class="rounded-2xl" />
-    <h1>Olá</h1>
+<Layout
+  title="Sobre mim"
+  description="Olá saiba um pouco mais sobre mim"
+  footer={{ isFixed: true }}
+>
+  <div>
+    <div class="flex items-center gap-6 mb-8">
+      <img src="me.jpg" alt="" class="rounded-2xl" />
+      <h1>Olá</h1>
+    </div>
+
+    <div class="mb-8">
+      <p>
+        Meu nome é Guilherme Gules e sou desenvolvedor de software, apaixonado
+        por criar soluções escaláveis e impactantes. Desde que comecei minha
+        jornada na tecnologia, mergulhei de cabeça no universo do
+        desenvolvimento full stack, explorando frameworks como Angular, React,
+        Node.js, NestJS e Spring. Além de escrever código, me dedico a
+        arquiteturas modernas como Microfrontends e Backends for Frontends
+        (BFFs), sempre buscando separar responsabilidades de forma eficiente e
+        inteligente.
+      </p>
+      <p>
+        Mas não vivo só de código e commits! Acredito que compartilhar
+        conhecimento é tão importante quanto escrever uma boa função assíncrona.
+        Por isso, estou sempre trocando ideias sobre tecnologia, acessibilidade
+        e arquitetura de software. Se quiser bater um papo, é só chamar –
+        prometo que o bug do dia pode esperar um pouco!
+      </p>
+
+      <p>
+        Atualmente, atuo como desenvolvedor construindo aplicações que vão além
+        do funcional: priorizo acessibilidade seguindo as diretrizes da WCAG,
+        garantindo que a tecnologia seja inclusiva e acessível a todos. Trabalho
+        em ambientes ágeis, utilizando testes automatizados e boas práticas para
+        entregar código limpo, organizado e pronto para evoluir. Para mim,
+        desenvolvimento não é apenas sobre tecnologia, mas sobre criar
+        experiências que realmente fazem a diferença.
+      </p>
+    </div>
+
+    <div class="flex gap-4">
+      <Anchor
+        href="/files/curriculo-guilhermegulesmoreira.pdf"
+        download
+        className="flex gap-0.5 bg-slate-900"
+        isOutline>Currículo <CloudArrowDownIcon className="w-5" /></Anchor
+      >
+      <Anchor
+        href="https://www.linkedin.com/in/guilhermegules/"
+        target="_blank"
+        isOutline>LinkedIn</Anchor
+      >
+    </div>
   </div>
-
-  <p>
-    Meu nome é Guilherme Gules e sou desenvolvedor de software, apaixonado por
-    criar soluções escaláveis e impactantes. Desde que comecei minha jornada na
-    tecnologia, mergulhei de cabeça no universo do desenvolvimento full stack,
-    explorando frameworks como Angular, React, Node.js, NestJS e Spring. Além de
-    escrever código, me dedico a arquiteturas modernas como Microfrontends e
-    Backends for Frontends (BFFs), sempre buscando separar responsabilidades de
-    forma eficiente e inteligente.
-  </p>
-  <p>
-    Mas não vivo só de código e commits! Acredito que compartilhar conhecimento
-    é tão importante quanto escrever uma boa função assíncrona. Por isso, estou
-    sempre trocando ideias sobre tecnologia, acessibilidade e arquitetura de
-    software. Se quiser bater um papo, é só chamar – prometo que o bug do dia
-    pode esperar um pouco!
-  </p>
-
-  <p>
-    Atualmente, atuo como desenvolvedor construindo aplicações que vão além do
-    funcional: priorizo acessibilidade seguindo as diretrizes da WCAG,
-    garantindo que a tecnologia seja inclusiva e acessível a todos. Trabalho em
-    ambientes ágeis, utilizando testes automatizados e boas práticas para
-    entregar código limpo, organizado e pronto para evoluir. Para mim,
-    desenvolvimento não é apenas sobre tecnologia, mas sobre criar experiências
-    que realmente fazem a diferença.
-  </p>
 </Layout>
