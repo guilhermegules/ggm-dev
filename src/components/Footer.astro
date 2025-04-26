@@ -8,8 +8,20 @@ interface Props {
 const { isFooterFixed } = Astro.props;
 ---
 
+<script>
+  window.addEventListener("resize", () => {
+    const isSmallScreen = window.innerWidth <= 768;
+
+    if (isSmallScreen) {
+      document.querySelector(".footer")?.classList.remove("fixed");
+      return;
+    }
+
+    document.querySelector(".footer")?.classList.add("fixed");
+  });
+</script>
 <footer
-  class={`bg-gray-800 text-white text-center p-2 ${isFooterFixed ? "absolute bottom-0 w-full" : ""}`}
+  class={`bg-gray-800 text-white text-center p-2 ${isFooterFixed ? "fixed bottom-0 w-full" : ""} footer`}
 >
   &copy; {today.getFullYear()} - Todos os bugs corrigidos (ou quase) | Criado por
   Guilherme Gules Moreira
