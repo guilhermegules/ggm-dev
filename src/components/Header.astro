@@ -1,17 +1,16 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
 ---
 
 <header>
   <nav class="grid grid-cols-6">
     <h2 class="col-span-2 text-center flex items-center justify-center">
-      <a href="/">{SITE_TITLE}</a>
+      <a href="/" id="home-link">Gules</a>
     </h2>
     <div class="internal-links col-span-2 flex items-center justify-center">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+      <HeaderLink href="/about">Sobre</HeaderLink>
     </div>
     <div class="social-links col-span-2 flex items-center justify-center">
       <a href="https://github.com/guilhermegules" target="_blank">
