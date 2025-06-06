@@ -1,18 +1,41 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 ---
 
-<header>
-  <nav class="grid grid-cols-6">
+<header class="flex justify-center gap-1 flex-col">
+  <div
+    class="md:hidden lg:hidden flex justify-center w-full mt-3"
+    aria-expanded="false"
+    aria-controls="main-navigation"
+    aria-label="Menu"
+  >
+    <Bars3Icon
+      width={32}
+      height={32}
+      className="cursor-pointer"
+      id="mobile-menu-toggle"
+    />
+
+    <XMarkIcon
+      width={32}
+      height={32}
+      className="cursor-pointer hidden"
+      id="mobile-menu-x"
+    />
+  </div>
+  <nav class="grid md:grid-cols-6 lg:grid-cols-6 grid-cols-1" id="navigation">
     <h2 class="col-span-2 text-center flex items-center justify-center">
       <a href="/" id="home-link">Gules</a>
     </h2>
-    <div class="internal-links col-span-2 flex items-center justify-center">
+    <div
+      class="col-span-2 flex items-center justify-center md:flex-row lg:flex-row flex-col"
+    >
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/blog">Blog</HeaderLink>
       <HeaderLink href="/about">Sobre</HeaderLink>
     </div>
-    <div class="social-links col-span-2 flex items-center justify-center">
+    <div class="col-span-2 flex items-center justify-center">
       <a href="https://github.com/guilhermegules" target="_blank">
         <span class="sr-only">Vai para o GitHub do Guilherme Gules</span>
         <svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
@@ -24,46 +47,72 @@ import HeaderLink from "./HeaderLink.astro";
       </a>
     </div>
   </nav>
-</header>
-<style>
-  header {
-    margin: 0;
-    padding: 0 1em;
-    background: var(--white);
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
 
-  h2 {
-    margin: 0;
-    font-weight: bold;
-  }
+  <script>
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+    const navigation = document.getElementById("navigation");
+    const mobileMenuX = document.getElementById("mobile-menu-x");
 
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-    border: 0;
-  }
+    const navigationHideHandler = () => {
+      if (window.innerWidth < 700) {
+        navigation?.classList.add("hidden");
+      } else {
+        navigation?.classList.remove("hidden");
+      }
+    };
 
-  nav a {
-    padding: 1em 0.5em;
-    color: var(--gray-600);
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-  }
+    navigationHideHandler();
 
-  nav a.active {
-    text-decoration: none;
-    border-bottom-color: var(--gray-800);
-  }
+    window.addEventListener("resize", () => {
+      navigationHideHandler();
+    });
 
-  .social-links,
-  .social-links a {
-    display: flex;
-  }
+    mobileMenuToggle?.addEventListener("click", () => {
+      mobileMenuToggle.setAttribute("aria-expanded", "true");
+      mobileMenuToggle.classList.add("hidden");
+      mobileMenuX?.classList.remove("hidden");
 
-  @media (max-width: 720px) {
-    .social-links {
-      display: none;
+      if (navigation?.classList.contains("hidden")) {
+        navigation.classList.remove("hidden");
+      }
+    });
+
+    mobileMenuX?.addEventListener("click", () => {
+      mobileMenuToggle?.setAttribute("aria-expanded", "false");
+      mobileMenuToggle?.classList.remove("hidden");
+      mobileMenuX.classList.add("hidden");
+      navigation?.classList.add("hidden");
+    });
+  </script>
+  <style>
+    header {
+      margin: 0;
+      padding: 0 1em;
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(var(--black), 5%);
     }
-  }
-</style>
+
+    h2 {
+      margin: 0;
+      font-weight: bold;
+    }
+
+    h2 a,
+    h2 a.active {
+      text-decoration: none;
+      border: 0;
+    }
+
+    nav a {
+      padding: 1em 0.5em;
+      color: var(--gray-600);
+      border-bottom: 4px solid transparent;
+      text-decoration: none;
+    }
+
+    nav a.active {
+      text-decoration: none;
+      border-bottom-color: var(--gray-800);
+    }
+  </style>
+</header>
