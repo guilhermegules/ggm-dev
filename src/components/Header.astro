@@ -16,7 +16,13 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
       className="cursor-pointer"
       id="mobile-menu-toggle"
     />
-    <!-- <XMarkIcon width={32} height={32} /> -->
+
+    <XMarkIcon
+      width={32}
+      height={32}
+      className="cursor-pointer hidden"
+      id="mobile-menu-x"
+    />
   </div>
   <nav class="grid md:grid-cols-6 lg:grid-cols-6 grid-cols-1" id="navigation">
     <h2 class="col-span-2 text-center flex items-center justify-center">
@@ -41,17 +47,41 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
       </a>
     </div>
   </nav>
+
   <script>
-    const mobileMenu = document.getElementById("mobile-menu-toggle");
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
     const navigation = document.getElementById("navigation");
+    const mobileMenuX = document.getElementById("mobile-menu-x");
 
-    mobileMenu?.addEventListener("click", () => {
-      const isExpanded = mobileMenu.getAttribute("aria-expanded") === "true";
-      mobileMenu.setAttribute("aria-expanded", `${!isExpanded}`);
-
-      if (navigation) {
-        navigation.hidden = isExpanded;
+    const navigationHideHandler = () => {
+      if (window.innerWidth < 700) {
+        navigation?.classList.add("hidden");
+      } else {
+        navigation?.classList.remove("hidden");
       }
+    };
+
+    navigationHideHandler();
+
+    window.addEventListener("resize", () => {
+      navigationHideHandler();
+    });
+
+    mobileMenuToggle?.addEventListener("click", () => {
+      mobileMenuToggle.setAttribute("aria-expanded", "true");
+      mobileMenuToggle.classList.add("hidden");
+      mobileMenuX?.classList.remove("hidden");
+
+      if (navigation?.classList.contains("hidden")) {
+        navigation.classList.remove("hidden");
+      }
+    });
+
+    mobileMenuX?.addEventListener("click", () => {
+      mobileMenuToggle?.setAttribute("aria-expanded", "false");
+      mobileMenuToggle?.classList.remove("hidden");
+      mobileMenuX.classList.add("hidden");
+      navigation?.classList.add("hidden");
     });
   </script>
   <style>
