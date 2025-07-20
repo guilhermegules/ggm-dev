@@ -2,7 +2,7 @@
 title: "Arquitetura de BFF e seus benefícios"
 description: "A arquitetura de BFF (Backends For Frontends) é uma abordagem que permite aos desenvolvedores frontend terem mais autonomia na criação de seus projetos. Isso é especialmente útil na maneira como eles irão agregar os endpoints."
 pubDate: "Apr 04 2024"
-heroImage: "/blog-cover-bff.png"
+heroImage: "/blog-cover-default.png"
 ---
 
 A arquitetura de BFF (Backends For Frontends) é uma abordagem que permite aos desenvolvedores frontend terem mais autonomia na criação de seus projetos. Isso é especialmente útil na maneira como eles irão agregar os endpoints. O principal benefício desta estratégia é que ela permite que o desenvolvimento seja guiado por aqueles que irão consumir o BFF, neste caso, os desenvolvedores frontend. Isto porque, em geral, são estes profissionais que têm um maior entendimento do contexto de uso e das necessidades específicas do projeto. Portanto, eles são os mais indicados para tomar decisões sobre a implementação.
