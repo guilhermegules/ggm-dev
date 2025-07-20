@@ -1,5 +1,5 @@
 ---
-title: "Minha jornada de \"full open-source\""
+title: 'Minha jornada de "full open-source"'
 description: "Adotar o modelo full open-source vai além de apenas usar software gratuito. Se trata de um compromisso com a transparência, colaboração, auditabilidade e autonomia tecnológica. A seguir, vou comentar os principais benefícios que notei, ferramentas recomendadas e boas substituições de tecnologias proprietárias por soluções abertas."
 pubDate: "Jul 20 2025"
 heroImage: "/blog-cover-default.png"
@@ -55,7 +55,7 @@ Plataforma open-source que transforma seu servidor em uma nuvem privada, funcion
 
 ## Woodpecker CI
 
-Ferramenta de CI/CD leve e minimalista, ideal para quem busca pipelines simples e fáceis de manter. Baseado em YAML e inspirado no Drone CI, ele é totalmente open-source e pensado para auto-hospedagem.  
+Ferramenta de CI/CD leve e minimalista, ideal para quem busca pipelines simples e fáceis de manter. Baseado em YAML e inspirado no Drone CI, ele é totalmente open-source e pensado para auto-hospedagem.
 
 🔗 [woodpecker ci](https://woodpecker-ci.org)
 
@@ -77,7 +77,7 @@ São ferramentas amplamente usadas para monitoramento e observabilidade.
 
 ## Logseq
 
-organizador pessoal que funciona com arquivos em Markdown, permitindo criar e gerenciar notas simples e rápidas. Seu principal diferencial são os backlinks (ligações entre notas) e a visualização em grafo, que mostram como suas ideias se conectam.
+Organizador pessoal que funciona com arquivos em Markdown, permitindo criar e gerenciar notas simples e rápidas. Seu principal diferencial são os backlinks (ligações entre notas) e a visualização em grafo, que mostram como suas ideias se conectam.
 
 🔗 [logseq](https://logseq.com)
 
