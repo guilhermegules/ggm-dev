@@ -50,6 +50,48 @@ body {
 body.dark {
   color: var(--white);
   background-color: var(--gray-800);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--white);
+  }
+
+  a {
+    color: var(--white);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+
+  p {
+    color: var(--white);
+  }
+
+  strong,
+  b {
+    color: var(--white);
+  }
+
+  a {
+    color: var(--gray-400);
+  }
+
+  a:hover {
+    color: var(--accent);
+  }
+
+  code {
+    background-color: transparent;
+  }
+
+  li {
+    color: var(--white);
+  }
 }
 
 main {
