@@ -1,7 +1,7 @@
 ---
 title: "Microfrontends com importmaps, iframe ou SingleSPA?"
 description: "Com o crescimento de aplicações web complexas, surge a necessidade de escalar equipas e tecnologias de forma independente."
-pubDate: "Fev 2 2026"
+pubDate: "Feb 02 2026"
 heroImage: "/blog-cover-default.png"
 ---
 
