@@ -14,9 +14,9 @@ instead of recalculating everything from scratch.
 
 ## Why it Matters
 
-Consider a simple problem, finding the maximum sum of a `subarray` of size `k`. A brute-force approach would compute the sum of every possible subarray of length k, resulting in a **time complexity of $O(n²)$**.
+Consider a simple problem, finding the maximum sum of a `subarray` of size `k`. A brute-force approach would compute the sum of every possible subarray of length k, resulting in a **time complexity of O(n²)**.
 
-The sliding window approach improves this dramatically. By maintaining a running sum and updating it as the window moves, the same problem can be solved in $O(n)$ time.
+The sliding window approach improves this dramatically. By maintaining a running sum and updating it as the window moves, the same problem can be solved in O(n) time.
 
 This optimization makes the technique especially useful in performance-critical applications and coding interviews.
 
@@ -126,7 +126,7 @@ This pattern provides a flexible framework for solving a wide range of problems.
 ## Big(O) Advantage
 
 One of the biggest strengths of the sliding window technique is its efficiency. 
-By ensuring that each element is processed at most twice (once when entering the window and once when leaving), the overall time complexity is typically $O(n)$. 
+By ensuring that each element is processed at most twice (once when entering the window and once when leaving), the overall time complexity is typically O(n). 
 This is a significant improvement over brute-force methods, which often operate in quadratic time.
 
 ## Intuition
