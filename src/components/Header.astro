@@ -1,6 +1,7 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ToggleThemeButton from "./ToggleThemeButton.astro";
 ---
 
 <header class="flex justify-center gap-1 flex-col">
@@ -45,6 +46,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
           ></path></svg
         >
       </a>
+      <ToggleThemeButton />
     </div>
   </nav>
 
@@ -88,7 +90,6 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
     header {
       margin: 0;
       padding: 0 1em;
-      background: var(--white);
       box-shadow: 0 2px 8px rgba(var(--black), 5%);
     }
 
