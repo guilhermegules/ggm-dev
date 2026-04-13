@@ -20,9 +20,7 @@ const { isFooterFixed } = Astro.props;
     document.querySelector(".footer")?.classList.add("fixed");
   });
 </script>
-<footer
-  class={`bg-gray-800 text-white text-center p-2 ${isFooterFixed ? "fixed bottom-0 w-full" : ""} footer`}
->
+<footer class={`text-center p-2 ${isFooterFixed ? "fixed bottom-0 w-full" : ""} footer`}>
   &copy; {today.getFullYear()} - Todos os bugs corrigidos (ou quase) | Criado por
   Guilherme Gules Moreira
 </footer>
