@@ -3,6 +3,13 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@content/*": ["./src/content/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@sync/*": ["./src/sync/*"]
+    },
     "strictNullChecks": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react"

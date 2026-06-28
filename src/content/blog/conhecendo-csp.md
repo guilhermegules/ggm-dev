@@ -4,7 +4,6 @@ description: "A segurança na web é uma preocupação constante. Todos os dias,
 pubDate: "Feb 08 2025"
 heroImage: "/blog-cover-default.png"
 ---
-
 A segurança na web é uma preocupação constante. Todos os dias, milhares de sites são comprometidos por ataques como **Cross-Site Scripting (XSS)**, permitindo que invasores executem scripts maliciosos em páginas legítimas.
 
 Imagine um cenário onde um usuário acessa um site confiável, mas um script injetado rouba seus dados de login e os envia para um atacante. Infelizmente, esse tipo de ataque ainda é **comum** e pode ter consequências graves.

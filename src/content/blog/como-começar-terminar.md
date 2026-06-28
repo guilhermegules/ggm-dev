@@ -4,7 +4,6 @@ description: "Não seria essa a grande pergunta?"
 pubDate: "Apr 17 2026"
 heroImage: "/blog-cover-default.png"
 ---
-
 Nós não sofremos por falta de ideias mas sofremos por excesso de começos ainda mais na era da informação com a quantidade absurda de dados que são jogados em nós todos os dias.
 
 Todo mundo começa coisas: projetos, hábitos, planos, cursos, metas. A empolgação inicial vem fácil. O problema é o que acontece depois. Com o tempo, surgem distrações, novas ideias mais interessantes, urgências do dia a dia… e aquilo que parecia importante vai ficando para trás.

@@ -4,7 +4,6 @@ description: "The C4 model (Context, Containers, Components, Classes) is an appr
 pubDate: "May 02 2024"
 heroImage: "/blog-cover-default.png"
 ---
-
 ## Introduction
 
 The C4 model (Context, Containers, Components, Classes) is an approach for modeling and documenting software architecture proposed by Simon Brown. It provides a scalable and hierarchical framework for describing software systems at different levels of abstraction.

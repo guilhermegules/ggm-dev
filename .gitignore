@@ -1,5 +1,8 @@
 # build output
 dist/
+
+# sync cache
+.sync-cache.json
 # generated types
 .astro/
 
