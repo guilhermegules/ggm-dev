@@ -1,6 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import type { Logger, SyncCache, SyncDiff, BlogFile } from '@sync/types';
-import { isNotFoundError } from '@sync/errors';
+import type { Logger, SyncCache, SyncDiff, BlogFile } from './types';
+import { isNotFoundError } from './errors';
 
 function hasChanged(cache: SyncCache, remotePath: string, sha: string): boolean {
   const entry = cache[remotePath];

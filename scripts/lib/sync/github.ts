@@ -1,5 +1,5 @@
-import type { SyncConfig, GitHubTreeResponse, Logger } from '@sync/types';
-import { sleep } from '@sync/concurrency';
+import type { SyncConfig, GitHubTreeResponse, Logger } from './types';
+import { sleep } from './concurrency';
 
 const API_BASE = 'https://api.github.com';
 const RAW_BASE = 'https://raw.githubusercontent.com';

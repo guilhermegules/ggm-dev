@@ -1,4 +1,4 @@
-import type { Logger } from '@sync/types';
+import type { Logger } from './types';
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug';
 

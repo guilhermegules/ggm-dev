@@ -1,8 +1,8 @@
-import type { SyncConfig, SyncSummary, Logger } from '@sync/types';
-import { fetchTree } from '@sync/github';
-import { filterBlogFiles } from '@sync/tree';
-import { loadCacheFromDisk, saveCacheToDisk, diffAgainstCache, mergeCache } from '@sync/cache';
-import { downloadFiles, removeFiles } from '@sync/download';
+import type { SyncConfig, SyncSummary, Logger } from './types';
+import { fetchTree } from './github';
+import { filterBlogFiles } from './tree';
+import { loadCacheFromDisk, saveCacheToDisk, diffAgainstCache, mergeCache } from './cache';
+import { downloadFiles, removeFiles } from './download';
 
 export async function synchronize(
   config: SyncConfig,

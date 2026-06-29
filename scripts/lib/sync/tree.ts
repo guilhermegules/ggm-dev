@@ -1,5 +1,4 @@
-import type { GitHubTreeItem } from '@sync/types';
-import type { BlogFile } from '@sync/types';
+import type { GitHubTreeItem, BlogFile } from './types';
 
 const ALLOWED_EXTENSIONS = new Set([
   '.md',

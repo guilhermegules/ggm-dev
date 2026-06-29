@@ -1,9 +1,9 @@
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import type { BlogFile, SyncConfig, DownloadCounts, FileType, Logger } from '@sync/types';
-import { downloadRaw, fetchBlob } from '@sync/github';
-import { isNotFoundError } from '@sync/errors';
-import { concurrentMap } from '@sync/concurrency';
+import type { BlogFile, SyncConfig, DownloadCounts, FileType, Logger } from './types';
+import { downloadRaw, fetchBlob } from './github';
+import { isNotFoundError } from './errors';
+import { concurrentMap } from './concurrency';
 
 export function classifyFile(file: BlogFile): FileType {
   const path = file.remotePath.toLowerCase();

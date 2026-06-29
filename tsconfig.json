@@ -7,8 +7,7 @@
       "@components/*": ["./src/components/*"],
       "@content/*": ["./src/content/*"],
       "@layouts/*": ["./src/layouts/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@sync/*": ["./src/sync/*"]
+      "@pages/*": ["./src/pages/*"]
     },
     "strictNullChecks": true,
     "jsx": "react-jsx",

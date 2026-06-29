@@ -1,8 +1,8 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { loadConfig } from '@sync/config';
-import { createLogger } from '@sync/logger';
-import { synchronize } from '@sync/synchronize';
+import { loadConfig } from './lib/sync/config';
+import { createLogger } from './lib/sync/logger';
+import { synchronize } from './lib/sync/synchronize';
 
 function loadEnvFile(filePath: string): void {
   try {

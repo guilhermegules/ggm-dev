@@ -21,7 +21,6 @@ export default defineConfig({
         '@content': path.resolve(__dirname, 'src/content'),
         '@layouts': path.resolve(__dirname, 'src/layouts'),
         '@pages': path.resolve(__dirname, 'src/pages'),
-        '@sync': path.resolve(__dirname, 'src/sync'),
       },
     },
     plugins: [tailwindcss()],

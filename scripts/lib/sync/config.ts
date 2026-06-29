@@ -1,4 +1,4 @@
-import type { SyncConfig } from '@sync/types';
+import type { SyncConfig } from './types';
 
 export function loadConfig(): SyncConfig {
   const owner = process.env.GITHUB_OWNER;
