@@ -19,7 +19,6 @@ export default function CinnamonDesktop({
   initialWindow,
   initialPostSlug,
 }: CinnamonDesktopProps) {
-  // Base Windows configuration
   const defaultWindows: WindowItem[] = [
     {
       id: "about",
@@ -30,10 +29,10 @@ export default function CinnamonDesktop({
       isMinimized: false,
       isMaximized: false,
       zIndex: 10,
-      x: 40,
+      x: 250,
       y: 35,
       width: 660,
-      height: 520,
+      height: 650,
       type: "about",
     },
     {
@@ -45,8 +44,8 @@ export default function CinnamonDesktop({
       isMinimized: false,
       isMaximized: false,
       zIndex: 15,
-      x: 180,
-      y: 90,
+      x: 935,
+      y: 250,
       width: 580,
       height: 400,
       type: "terminal",
@@ -58,7 +57,7 @@ export default function CinnamonDesktop({
       icon: "📚",
       isOpen: false,
       isMinimized: false,
-      isMaximized: false,
+      isMaximized: true,
       zIndex: 12,
       x: 120,
       y: 60,
@@ -717,7 +716,7 @@ export default function CinnamonDesktop({
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
               <circle cx="12" cy="12" r="10" fill="var(--cin-accent, #35a854)" />
               <path d="M7 15C7 11 11 9 16 8C15 13 13 17 9 17C7.5 17 7 16 7 15Z" fill="#ffffff" />
-              <path d="M12 11V15" stroke="var(--cin-accent, #35a854)" stroke-width="1.5" stroke-linecap="round" />
+              <path d="M12 11V15" stroke="var(--cin-accent, #35a854)" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
             <span className="hidden sm:inline">Menu</span>
           </button>

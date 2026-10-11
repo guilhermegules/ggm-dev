@@ -272,6 +272,165 @@ body.h-full {
   opacity: 0.96;
 }
 
+/* Document Viewer Markdown Body */
+.cin-markdown-body {
+  color: var(--cin-fg-base);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.cin-markdown-body h1,
+.cin-markdown-body h2,
+.cin-markdown-body h3,
+.cin-markdown-body h4 {
+  color: var(--cin-fg-base);
+  font-weight: var(--cin-font-bold);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.cin-markdown-body h1 {
+  font-size: 1.85rem;
+  border-bottom: 1px solid var(--cin-separator);
+  padding-bottom: 0.5rem;
+}
+
+.cin-markdown-body h2 {
+  font-size: 1.45rem;
+  border-bottom: 1px solid var(--cin-separator);
+  padding-bottom: 0.35rem;
+}
+
+.cin-markdown-body h3 {
+  font-size: 1.25rem;
+}
+
+.cin-markdown-body h4 {
+  font-size: 1.1rem;
+}
+
+.cin-markdown-body p {
+  margin-bottom: 1.25rem;
+  color: var(--cin-fg-base);
+}
+
+.cin-markdown-body ul,
+.cin-markdown-body ol {
+  margin: 1rem 0 1.25rem 1.75rem;
+  padding: 0;
+}
+
+.cin-markdown-body ul {
+  list-style-type: disc;
+}
+
+.cin-markdown-body ol {
+  list-style-type: decimal;
+}
+
+.cin-markdown-body li {
+  margin-bottom: 0.4rem;
+  color: var(--cin-fg-base);
+}
+
+.cin-markdown-body blockquote {
+  border-left: 4px solid var(--cin-accent);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  background-color: var(--cin-accent-subtle);
+  border-radius: 0 var(--cin-radius-md) var(--cin-radius-md) 0;
+  color: var(--cin-fg-base);
+}
+
+.cin-markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border: 1px solid var(--cin-border);
+  border-radius: var(--cin-radius-md);
+  overflow: hidden;
+  font-size: var(--cin-text-sm);
+}
+
+.cin-markdown-body th {
+  background-color: var(--cin-bg-surface);
+  color: var(--cin-fg-dim);
+  font-weight: var(--cin-font-bold);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--cin-separator);
+  border-right: 1px solid var(--cin-separator);
+  text-align: left;
+}
+
+.cin-markdown-body td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--cin-separator);
+  border-right: 1px solid var(--cin-separator);
+  color: var(--cin-fg-base);
+}
+
+.cin-markdown-body tr:nth-child(even) td {
+  background-color: var(--cin-bg-alt);
+}
+
+.cin-markdown-body tr:last-child td {
+  border-bottom: none;
+}
+
+.cin-markdown-body pre {
+  padding: 1.25rem;
+  border-radius: var(--cin-radius-md);
+  background-color: #1a1a1d !important;
+  color: #70d870 !important;
+  border: 1px solid var(--cin-border);
+  font-family: var(--cin-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.cin-markdown-body code {
+  padding: 2px 6px;
+  background-color: var(--cin-bg-surface);
+  border: 1px solid var(--cin-border);
+  border-radius: var(--cin-radius-sm);
+  color: var(--cin-fg-base);
+  font-family: var(--cin-font-mono);
+  font-size: 0.9em;
+}
+
+.cin-markdown-body pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+
+.cin-markdown-body a {
+  color: var(--cin-accent);
+  text-decoration: underline;
+}
+
+.cin-markdown-body a:hover {
+  color: var(--cin-accent-hover);
+}
+
+.cin-markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--cin-separator);
+  margin: 2rem 0;
+}
+
+.cin-markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--cin-radius-md);
+  border: 1px solid var(--cin-border);
+  margin: 1.5rem 0;
+}
+
 .sr-only {
   border: 0;
   padding: 0;

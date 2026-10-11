@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "4.3.1",
     "astro": "7.3.8",
     "cinnamon-css": "link:../cinnamon-css",
+    "marked": "^18.1.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "tailwindcss": "4.3.1"

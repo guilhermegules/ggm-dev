@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useMemo } from "react";
+import { marked } from "marked";
 import type { BlogPostData } from "./types";
 
 interface ArticleWindowProps {
@@ -7,64 +8,34 @@ interface ArticleWindowProps {
 }
 
 export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
-  // Render simple markdown paragraphs and headings cleanly
-  const renderContent = (bodyText?: string) => {
-    if (!bodyText) return <p className="text-gray-400">Conteúdo do artigo indisponível.</p>;
+  // Parse markdown into HTML cleanly
+  const htmlContent = useMemo(() => {
+    if (!post.body) return "<p>Conteúdo do artigo indisponível.</p>";
 
-    const lines = bodyText.split("\n");
-    const elements: React.ReactNode[] = [];
-    let currentParagraph: string[] = [];
-
-    const flushParagraph = (key: number) => {
-      if (currentParagraph.length > 0) {
-        const text = currentParagraph.join(" ");
-        elements.push(
-          <p key={key} className="mb-4 leading-relaxed text-[var(--cin-fg-base)]">
-            {text}
-          </p>
-        );
-        currentParagraph = [];
+    let clean = post.body.trim();
+    // Strip yaml frontmatter if present
+    if (clean.startsWith("---")) {
+      const endIdx = clean.indexOf("---", 3);
+      if (endIdx !== -1) {
+        clean = clean.slice(endIdx + 3).trim();
       }
-    };
+    }
 
-    lines.forEach((line, idx) => {
-      const trimmed = line.trim();
-      if (trimmed.startsWith("## ")) {
-        flushParagraph(idx);
-        elements.push(
-          <h2
-            key={idx}
-            className="text-xl font-bold mt-6 mb-3 pb-1 border-b border-[var(--cin-separator)] text-[var(--cin-fg-base)]"
-          >
-            {trimmed.replace("## ", "")}
-          </h2>
-        );
-      } else if (trimmed.startsWith("### ")) {
-        flushParagraph(idx);
-        elements.push(
-          <h3 key={idx} className="text-lg font-bold mt-4 mb-2 text-[var(--cin-fg-base)]">
-            {trimmed.replace("### ", "")}
-          </h3>
-        );
-      } else if (trimmed.startsWith("```")) {
-        flushParagraph(idx);
-        // Code block indicator
-      } else if (trimmed === "") {
-        flushParagraph(idx);
-      } else {
-        currentParagraph.push(trimmed);
-      }
-    });
-
-    flushParagraph(lines.length);
-    return elements;
-  };
+    try {
+      return marked.parse(clean, {
+        gfm: true,
+        breaks: true,
+      }) as string;
+    } catch {
+      return `<p>${clean}</p>`;
+    }
+  }, [post.body]);
 
   return (
     <div className="flex flex-col h-full overflow-y-auto bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)]">
       {/* Hero Image */}
       {post.heroImage && (
-        <div className="w-full bg-[var(--cin-bg-alt)] border-b border-[var(--cin-separator)] overflow-hidden">
+        <div className="w-full bg-[var(--cin-bg-alt)] border-b border-[var(--cin-separator)] overflow-hidden flex-shrink-0">
           <img
             src={post.heroImage}
             alt={post.title}
@@ -74,7 +45,7 @@ export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
       )}
 
       {/* Article Body */}
-      <div className="p-6 md:p-8 max-w-3xl mx-auto w-full">
+      <div className="p-6 md:p-8 max-w-3xl mx-auto w-full flex-1">
         <header className="mb-6 pb-4 border-b border-[var(--cin-separator)]">
           <div className="flex items-center gap-2 mb-2">
             <span className="cin-badge">{post.pubDate}</span>
@@ -89,9 +60,11 @@ export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
           )}
         </header>
 
-        <div className="prose max-w-none text-base">
-          {renderContent(post.body)}
-        </div>
+        {/* Rendered Markdown Body */}
+        <div
+          className="cin-markdown-body"
+          dangerouslySetInnerHTML={{ __html: htmlContent }}
+        />
 
         <footer className="mt-8 pt-4 border-t border-[var(--cin-separator)] flex items-center justify-between">
           <span className="text-xs text-[var(--cin-fg-subtle)]">
