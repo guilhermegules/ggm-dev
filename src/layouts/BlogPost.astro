@@ -10,98 +10,135 @@ type Props = CollectionEntry<"blog">["data"];
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<html lang="en">
+<!doctype html>
+<html lang="pt-br" data-accent="mint">
   <head>
     <BaseHead title={title} description={description} />
-    <style>
-      main {
-        width: auto;
-        max-width: 100%;
-        margin: 0;
-      }
-
-      .hero-image {
-        width: 100%;
-      }
-
-      .hero-image img {
-        display: block;
-        margin: 0 auto;
-        border-radius: 12px;
-        box-shadow: var(--box-shadow);
-      }
-
-      .prose {
-        width: 720px;
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 1em;
-        color: rgb(var(--gray-dark));
-      }
-
-      .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
-      }
-
-      .title h1 {
-        margin: 0 0 0.5em 0;
-      }
-
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-
-      .last-updated-on {
-        font-style: italic;
-      }
-
-      :global(.prose ul),
-      :global(.prose ol) {
-        list-style: revert;
-        margin-left: 1.5rem;
-        margin-bottom: 1.5rem;
-      }
-
-      :global(.prose li) {
-        display: list-item;
-      }
-    </style>
   </head>
 
-  <body>
+  <body class="cin-body flex flex-col min-h-screen">
     <Header />
-    <main>
-      <article>
-        <div class="hero-image">
-          {
-            heroImage && (
-              <img width={1020} height={510} src={heroImage} alt="" />
-            )
-          }
-        </div>
-        <div class="prose">
-          <div class="title">
-            <div class="date">
-              <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
-            </div>
-            <h1>{title}</h1>
-            <hr />
+    <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <!-- Breadcrumb / Back link -->
+      <div class="mb-4">
+        <a href="/blog" class="cin-btn cin-btn-sm cin-btn-flat">
+          &larr; Voltar para os artigos
+        </a>
+      </div>
+
+      <!-- Article in Cinnamon Document Viewer Window -->
+      <article class="cin-window-card">
+        <!-- Window Titlebar -->
+        <header class="cin-titlebar">
+          <div class="cin-titlebar-left">
+            <span class="cin-titlebar-icon">📄</span>
           </div>
-          <slot />
+          <div class="cin-titlebar-center">
+            <span class="cin-titlebar-title truncate max-w-xs sm:max-w-md">{title}</span>
+          </div>
+          <div class="cin-titlebar-right">
+            <div class="cin-window-controls">
+              <button class="cin-win-btn cin-win-btn-min" type="button" aria-label="Minimizar">
+                <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6"/></svg>
+              </button>
+              <button class="cin-win-btn cin-win-btn-max" type="button" aria-label="Maximizar">
+                <svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1" fill="none"/></svg>
+              </button>
+              <button class="cin-win-btn cin-win-btn-close" type="button" aria-label="Fechar">
+                <svg viewBox="0 0 12 12"><path d="M3 3L9 9M9 3L3 9"/></svg>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Hero Image -->
+        {heroImage && (
+          <div class="w-full bg-[var(--cin-bg-alt)] border-b border-[var(--cin-separator)] overflow-hidden">
+            <img
+              width={1020}
+              height={510}
+              src={heroImage}
+              alt=""
+              class="w-full max-h-96 object-cover"
+            />
+          </div>
+        )}
+
+        <!-- Article Content -->
+        <div class="p-6 md:p-10 bg-[var(--cin-bg-base)]">
+          <header class="mb-8 pb-6 border-b border-[var(--cin-separator)]">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="cin-badge">
+                <FormattedDate date={pubDate} />
+              </span>
+              {updatedDate && (
+                <span class="text-xs text-[var(--cin-fg-subtle)] italic">
+                  (Atualizado em <FormattedDate date={updatedDate} />)
+                </span>
+              )}
+            </div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-3">
+              {title}
+            </h1>
+            {description && (
+              <p class="text-base sm:text-lg text-[var(--cin-fg-dim)] m-0 leading-relaxed">
+                {description}
+              </p>
+            )}
+          </header>
+
+          <div class="prose max-w-none text-base leading-relaxed">
+            <slot />
+          </div>
         </div>
       </article>
     </main>
     <Footer />
   </body>
 </html>
+
+<style>
+  :global(.prose) {
+    color: var(--cin-fg-base);
+  }
+
+  :global(.prose h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--cin-fg-base);
+    border-bottom: 1px solid var(--cin-separator);
+    padding-bottom: 0.25rem;
+  }
+
+  :global(.prose h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--cin-fg-base);
+  }
+
+  :global(.prose ul),
+  :global(.prose ol) {
+    list-style: revert;
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  :global(.prose li) {
+    display: list-item;
+    margin-bottom: 0.25rem;
+    color: var(--cin-fg-base);
+  }
+
+  :global(.prose a) {
+    color: var(--cin-accent);
+    text-decoration: underline;
+  }
+
+  :global(.prose a:hover) {
+    color: var(--cin-accent-hover);
+  }
+</style>

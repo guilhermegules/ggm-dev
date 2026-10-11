@@ -7,18 +7,28 @@ interface Props {
   target?: astroHTML.JSX.HTMLAttributeAnchorTarget;
 }
 
-const { href, download, className, isOutline, target } = Astro.props;
+const { href, download, className = "", isOutline = false, target } = Astro.props;
 ---
 
 <a
   href={href}
-  class={`uppercase ease-in-out duration-75 ${
-    isOutline
-      ? "bg-white !text-gray-800 border-gray-950 border-1 hover:bg-gray-800 hover:!text-white hover:border-1 hover:border-transparent"
-      : "bg-gray-800 !text-white hover:bg-white border-transparent border-1 hover:!text-gray-800 hover:border-gray-950 hover:border-1"
-  }  py-4 px-8 rounded-2xl cursor-pointer ${className ?? ""}`}
+  class:list={[
+    "cin-btn cin-btn-lg transition-all",
+    isOutline ? "" : "cin-btn-suggested",
+    className
+  ]}
   download={download}
   target={target}
 >
   <slot />
 </a>
+
+<style>
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: var(--cin-font-bold);
+  }
+</style>

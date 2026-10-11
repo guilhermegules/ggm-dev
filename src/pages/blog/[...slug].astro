@@ -20,5 +20,13 @@ const { Content } = await render(post);
 
 <BlogPost {...post.data}>
   <Content />
-  <Giscus client:visible />
+  <section class="mt-12 pt-8 border-t border-[var(--cin-separator)]">
+    <div class="flex items-center gap-2 mb-6">
+      <span class="text-xl">💬</span>
+      <h3 class="text-xl font-bold m-0 text-[var(--cin-fg-base)]">Comentários</h3>
+    </div>
+    <div class="cin-box p-4 md:p-6 bg-[var(--cin-bg-surface)] rounded-lg">
+      <Giscus client:visible />
+    </div>
+  </section>
 </BlogPost>

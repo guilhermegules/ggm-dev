@@ -6,21 +6,27 @@ type Props = HTMLAttributes<"a">;
 const { href, class: className, ...props } = Astro.props;
 const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, "");
 const subpath = pathname.match(/[^\/]+/g);
-const isActive = href === pathname || href === "/" + (subpath?.[0] || "");
+const isActive =
+  href === pathname ||
+  (href === "/" && (pathname === "" || pathname === "/")) ||
+  (href !== "/" && (pathname === href || pathname === "/" + (subpath?.[0] || "")));
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a
+  href={href}
+  class:list={[
+    "cin-btn cin-btn-sm header-link",
+    { "is-active": isActive },
+    className,
+  ]}
+  {...props}
+>
   <slot />
 </a>
+
 <style>
-  a {
-    display: inline-block;
+  .header-link {
     text-decoration: none;
-  }
-  a.active {
-    text-decoration: underline;
-  }
-  :global(body.dark) a {
-    color: var(--gray-400);
+    font-size: var(--cin-text-sm);
   }
 </style>

@@ -5,22 +5,111 @@ interface Props {
   isFooterFixed?: boolean;
 }
 
-const { isFooterFixed } = Astro.props;
+const { isFooterFixed = false } = Astro.props;
 ---
 
-<script>
-  window.addEventListener("resize", () => {
-    const isSmallScreen = window.innerWidth <= 768;
+<footer class:list={["cin-panel-footer", { "is-fixed": isFooterFixed }]}>
+  <div class="cin-footer-inner">
+    <!-- Left: Mint indicator -->
+    <div class="cin-footer-left">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" class="cin-leaf-icon">
+        <circle cx="12" cy="12" r="10" fill="var(--cin-accent, #35a854)"/>
+        <path d="M7 15C7 11 11 9 16 8C15 13 13 17 9 17C7.5 17 7 16 7 15Z" fill="#ffffff"/>
+      </svg>
+      <span class="cin-footer-badge">Cinnamon CSS</span>
+    </div>
 
-    if (isSmallScreen) {
-      document.querySelector(".footer")?.classList.remove("fixed");
-      return;
-    }
+    <!-- Center: Copyright -->
+    <div class="cin-footer-center">
+      <span>&copy; {today.getFullYear()} Guilherme Gules Moreira</span>
+      <span class="hidden sm:inline">• Todos os bugs corrigidos (ou quase)</span>
+    </div>
 
-    document.querySelector(".footer")?.classList.add("fixed");
-  });
-</script>
-<footer class={`text-center p-2 ${isFooterFixed ? "fixed bottom-0 w-full" : ""} footer`}>
-  &copy; {today.getFullYear()} - Todos os bugs corrigidos (ou quase) | Criado por
-  Guilherme Gules Moreira
+    <!-- Right: Panel Clock Applet -->
+    <div class="cin-footer-right">
+      <span id="cin-panel-clock" class="cin-panel-clock">--:--</span>
+    </div>
+  </div>
 </footer>
+
+<script>
+  function updateClock() {
+    const clockEl = document.getElementById("cin-panel-clock");
+    if (!clockEl) return;
+    const now = new Date();
+    clockEl.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+
+  updateClock();
+  setInterval(updateClock, 30000);
+</script>
+
+<style>
+  .cin-panel-footer {
+    width: 100%;
+    height: 40px;
+    background-color: var(--cin-panel-bg);
+    color: var(--cin-panel-fg);
+    border-top: 1px solid var(--cin-border);
+    display: flex;
+    align-items: center;
+    font-size: var(--cin-text-sm);
+    user-select: none;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+    margin-top: auto;
+    transition: background-color var(--cin-transition-normal), color var(--cin-transition-normal);
+  }
+
+  .cin-panel-footer.is-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--cin-z-panel, 100);
+  }
+
+  .cin-footer-inner {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cin-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--cin-text-xs);
+    color: var(--cin-fg-dim);
+  }
+
+  .cin-footer-badge {
+    font-weight: var(--cin-font-medium);
+  }
+
+  .cin-footer-center {
+    font-size: var(--cin-text-xs);
+    color: var(--cin-fg-dim);
+    text-align: center;
+  }
+
+  .cin-footer-right {
+    display: flex;
+    align-items: center;
+    font-family: var(--cin-font-mono);
+    font-size: var(--cin-text-xs);
+    color: var(--cin-fg-dim);
+    background-color: var(--cin-panel-item-hover);
+    padding: 2px 8px;
+    border-radius: var(--cin-radius-sm);
+  }
+
+  @media (max-width: 640px) {
+    .cin-footer-left {
+      display: none;
+    }
+  }
+</style>

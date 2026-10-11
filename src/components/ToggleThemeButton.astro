@@ -3,27 +3,3 @@ import Toggle from "./Toggle";
 ---
 
 <Toggle client:load />
-
-<script>
-  import { DARK_THEME, SITE_THEME_KEY, LIGHT_THEME } from "../consts";
-
-  const THEME_CHANGE_EVENT = "theme-change";
-
-  function toggleTheme() {
-    const isDark = localStorage.getItem(SITE_THEME_KEY) === DARK_THEME;
-
-    const currentTheme = isDark ? LIGHT_THEME : DARK_THEME;
-    const previousTheme = isDark ? DARK_THEME : LIGHT_THEME;
-
-    localStorage.setItem(SITE_THEME_KEY, currentTheme);
-
-    document.body.classList.remove(previousTheme);
-    document.body.classList.add(currentTheme);
-
-    window.dispatchEvent(new CustomEvent(THEME_CHANGE_EVENT));
-  }
-
-  document
-    .getElementById("toggle-button")!
-    .addEventListener("click", toggleTheme);
-</script>

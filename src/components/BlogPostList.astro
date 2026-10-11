@@ -17,103 +17,172 @@ interface Props {
 const { posts, isAllCardsSmall = false } = Astro.props;
 ---
 
-<ul>
+<div class="cin-posts-grid">
   {
-    posts.map((post) => (
-      <li class={isAllCardsSmall ? "" : "first-child-bigger"}>
-        <a href={`/blog/${post.id}/`}>
-          <img
-            width={720}
-            height={360}
-            src={post.data.heroImage}
-            alt={post.data.description}
-          />
-          <h4 class="title">{post.data.title}</h4>
-          <p class="date">
-            <FormattedDate date={post.data.pubDate} />
-          </p>
+    posts.map((post, index) => (
+      <article
+        class:list={[
+          "cin-box cin-post-card",
+          { "is-featured": !isAllCardsSmall && index === 0 },
+        ]}
+      >
+        <a href={`/blog/${post.id}/`} class="cin-post-link">
+          {post.data.heroImage && (
+            <div class="cin-post-img-container">
+              <img
+                width={720}
+                height={360}
+                src={post.data.heroImage}
+                alt={post.data.description || post.data.title}
+                class="cin-post-img"
+              />
+            </div>
+          )}
+          <div class="cin-post-content">
+            <div class="cin-post-meta">
+              <span class="cin-badge">
+                <FormattedDate date={post.data.pubDate} />
+              </span>
+            </div>
+            <h3 class="cin-post-title">{post.data.title}</h3>
+            {post.data.description && (
+              <p class="cin-post-desc">{post.data.description}</p>
+            )}
+            <div class="cin-post-footer">
+              <span class="cin-post-read-more">Ler artigo &rarr;</span>
+            </div>
+          </div>
         </a>
-      </li>
+      </article>
     ))
   }
-</ul>
+</div>
 
 <style>
-  ul {
+  .cin-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .cin-post-card {
+    border-radius: var(--cin-radius-lg);
+    background-color: var(--cin-bg-surface);
+    border: 1px solid var(--cin-border);
+    box-shadow: var(--cin-shadow-sm);
+    overflow: hidden;
+    transition: transform var(--cin-transition-normal), 
+                box-shadow var(--cin-transition-normal), 
+                border-color var(--cin-transition-normal);
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+    flex-direction: column;
   }
 
-  ul li {
-    width: calc(50% - 1rem);
+  .cin-post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--cin-shadow-md);
+    border-color: var(--cin-accent);
   }
 
-  ul li * {
+  .cin-post-card.is-featured {
+    grid-column: 1 / -1;
+  }
+
+  .cin-post-link {
     text-decoration: none;
-    transition: 0.2s ease;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
-  ul li img {
-    margin-bottom: 0.5rem;
-    border-radius: 12px;
+  .cin-post-img-container {
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--cin-bg-alt);
+    border-bottom: 1px solid var(--cin-separator);
   }
 
-  ul li a {
+  .cin-post-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
     display: block;
+    transition: transform var(--cin-transition-normal);
   }
 
-  ul li a:hover h4,
-  ul li a:hover .date {
-    color: rgb(var(--accent));
+  .is-featured .cin-post-img {
+    height: 280px;
   }
 
-  ul a:hover img {
-    box-shadow: var(--box-shadow);
+  .cin-post-card:hover .cin-post-img {
+    transform: scale(1.02);
   }
 
-  ul li.first-child-bigger:first-child {
-    width: 100%;
-    margin-bottom: 1rem;
-    text-align: center;
+  .cin-post-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex-1;
+    gap: 0.6rem;
   }
 
-  ul li.first-child-bigger:first-child img {
-    width: 100%;
+  .cin-post-meta {
+    display: flex;
+    align-items: center;
   }
 
-  ul li.first-child-bigger:first-child .title {
-    font-size: 2.369rem;
-  }
-
-  .title {
+  .cin-post-title {
     margin: 0;
-    line-height: 1;
+    font-size: var(--cin-text-lg);
+    font-weight: var(--cin-font-bold);
+    color: var(--cin-fg-base);
+    line-height: 1.3;
+    transition: color var(--cin-transition-fast);
   }
-  .date {
+
+  .is-featured .cin-post-title {
+    font-size: 1.5rem;
+  }
+
+  .cin-post-card:hover .cin-post-title {
+    color: var(--cin-accent);
+  }
+
+  .cin-post-desc {
     margin: 0;
-    color: rgb(var(--gray));
+    font-size: var(--cin-text-base);
+    color: var(--cin-fg-dim);
+    line-height: 1.5;
+    flex-1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  @media (max-width: 720px) {
-    ul {
-      gap: 0.5em;
-    }
+  .cin-post-footer {
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--cin-separator);
+  }
 
-    ul li {
-      width: 100%;
-      text-align: center;
-    }
+  .cin-post-read-more {
+    font-size: var(--cin-text-sm);
+    font-weight: var(--cin-font-bold);
+    color: var(--cin-accent);
+  }
 
-    ul li:first-child {
-      margin-bottom: 0;
+  @media (max-width: 640px) {
+    .cin-posts-grid {
+      grid-template-columns: 1fr;
     }
-
-    ul li:first-child .title {
-      font-size: 1.563em;
+    .cin-post-img {
+      height: 160px;
+    }
+    .is-featured .cin-post-img {
+      height: 180px;
     }
   }
 </style>
