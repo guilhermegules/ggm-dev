@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import type { WindowItem, BlogPostData } from "../types";
 
 const DEFAULT_WINDOWS: WindowItem[] = [
@@ -82,20 +82,18 @@ const DEFAULT_WINDOWS: WindowItem[] = [
 export function useWindowManager(initialWindows: WindowItem[] = DEFAULT_WINDOWS) {
   const [windows, setWindows] = useState<WindowItem[]>(initialWindows);
   const [activeWindowId, setActiveWindowId] = useState<string>("terminal");
-  const [maxZIndex, setMaxZIndex] = useState<number>(20);
+  const maxZIndexRef = useRef<number>(20);
 
   const bringToFront = useCallback((winId: string) => {
-    setMaxZIndex((prev) => {
-      const nextZ = prev + 1;
-      setWindows((wins) =>
-        wins.map((w) =>
-          w.id === winId
-            ? { ...w, zIndex: nextZ, isMinimized: false }
-            : w
-        )
-      );
-      return nextZ;
-    });
+    maxZIndexRef.current += 1;
+    const nextZ = maxZIndexRef.current;
+    setWindows((wins) =>
+      wins.map((w) =>
+        w.id === winId
+          ? { ...w, zIndex: nextZ, isMinimized: false }
+          : w
+      )
+    );
     setActiveWindowId(winId);
   }, []);
 
@@ -136,7 +134,7 @@ export function useWindowManager(initialWindows: WindowItem[] = DEFAULT_WINDOWS)
           isOpen: true,
           isMinimized: false,
           isMaximized: false,
-          zIndex: maxZIndex + 1,
+          zIndex: maxZIndexRef.current + 1,
           x: Math.min(screenWidth - 720, 140 + cascadeOffset),
           y: Math.min(screenHeight - 560, 50 + cascadeOffset),
           width: 700,
@@ -149,7 +147,7 @@ export function useWindowManager(initialWindows: WindowItem[] = DEFAULT_WINDOWS)
 
       bringToFront(postId);
     },
-    [bringToFront, maxZIndex]
+    [bringToFront]
   );
 
   const closeWindow = useCallback((winId: string, e?: React.MouseEvent) => {

@@ -22,6 +22,7 @@ interface CinnamonDesktopPresenterProps {
     text: string;
     icon: string;
   } | null;
+  showHomeShortcut?: boolean;
   onBringToFront: (winId: string) => void;
   onOpenWindow: (winId: string) => void;
   onOpenPost: (post: BlogPostData) => void;
@@ -62,6 +63,7 @@ export default function CinnamonDesktopPresenter({
   clockTime,
   isDark,
   notification,
+  showHomeShortcut = false,
   onBringToFront,
   onOpenWindow,
   onOpenPost,
@@ -93,6 +95,17 @@ export default function CinnamonDesktopPresenter({
       >
         {/* Desktop Shortcuts Grid */}
         <div className="cin-desktop-grid">
+          {showHomeShortcut && (
+            <a
+              href="/"
+              className="cin-desktop-icon no-underline"
+              title="Voltar para a página inicial"
+            >
+              <div className="cin-desktop-icon-img text-3xl">🏠</div>
+              <div className="cin-desktop-icon-label">Início</div>
+            </a>
+          )}
+
           <div
             className="cin-desktop-icon"
             onDoubleClick={() => onOpenWindow("about")}

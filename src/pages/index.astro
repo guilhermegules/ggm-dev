@@ -1,32 +1,10 @@
 ---
 import BaseHead from "@components/BaseHead.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import { getCollection, type CollectionEntry } from "astro:content";
-import type { BlogPostData } from "@components/desktop/types";
 import CinnamonDesktop from "@components/desktop/CinnamonDesktop";
+import { getBlogPosts } from "../utils/posts";
 
-let rawPosts: CollectionEntry<"blog">[] = [];
-try {
-  rawPosts = await getCollection("blog");
-} catch {
-  rawPosts = [];
-}
-
-const posts: BlogPostData[] = rawPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .map((post) => ({
-    id: post.id,
-    title: post.data.title,
-    description: post.data.description,
-    pubDate: post.data.pubDate.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }),
-    heroImage: post.data.heroImage,
-    body: post.body,
-    html: post.rendered?.html,
-  }));
+const posts = await getBlogPosts();
 ---
 
 <!doctype html>
@@ -45,7 +23,7 @@ const posts: BlogPostData[] = rawPosts
         {
           posts.map((post) => (
             <li>
-              <span>{post.title}</span>
+              <a href={`/blog/${post.id}`}>{post.title}</a>
               <p>{post.description}</p>
             </li>
           ))

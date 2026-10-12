@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { marked } from "marked";
 import type { BlogPostData } from "./types";
 import Giscus from "@components/Giscus";
@@ -9,6 +9,9 @@ interface ArticleWindowProps {
 }
 
 export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
+    const [copied, setCopied] = useState(false);
+    const sharePath = `/blog/${post.id}`;
+
     const contentHtml = useMemo(() => {
         if (post.html) {
             return post.html;
@@ -35,6 +38,21 @@ export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
 
         return "<p>Conteúdo do artigo indisponível.</p>";
     }, [post.html, post.body]);
+
+    const handleCopyLink = async () => {
+        const url =
+            typeof window !== "undefined"
+                ? new URL(sharePath, window.location.origin).toString()
+                : sharePath;
+
+        try {
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch {
+            setCopied(false);
+        }
+    };
 
     return (
         <div className="flex flex-col h-full overflow-y-auto bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)]">
@@ -68,10 +86,29 @@ export default function ArticleWindow({ post, onClose }: ArticleWindowProps) {
                     dangerouslySetInnerHTML={{ __html: contentHtml }}
                 />
 
-                <footer className="mt-8 pt-4 border-t border-[var(--cin-separator)] flex items-center justify-between">
+                <footer className="mt-8 pt-4 border-t border-[var(--cin-separator)] flex flex-wrap items-center justify-between gap-3">
                     <span className="text-xs text-[var(--cin-fg-subtle)]">
                         Escrito por Guilherme Gules Moreira
                     </span>
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={handleCopyLink}
+                            className="cin-btn cin-btn-sm cin-btn-flat text-xs"
+                            title="Copiar link do artigo"
+                        >
+                            {copied ? "Link copiado!" : "Copiar link"}
+                        </button>
+                        <a
+                            href={sharePath}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="cin-btn cin-btn-sm cin-btn-flat text-xs no-underline"
+                            title="Abrir artigo em nova aba"
+                        >
+                            Abrir página
+                        </a>
+                    </div>
                 </footer>
 
                 <div className="cin-box p-4 md:p-6 mt-4 bg-[var(--cin-bg-surface)] rounded-lg">

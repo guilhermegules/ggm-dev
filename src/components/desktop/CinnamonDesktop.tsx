@@ -10,12 +10,14 @@ interface CinnamonDesktopProps {
   posts: BlogPostData[];
   initialWindow?: string;
   initialPostSlug?: string;
+  showHomeShortcut?: boolean;
 }
 
 export default function CinnamonDesktop({
   posts,
   initialWindow,
   initialPostSlug,
+  showHomeShortcut = false,
 }: CinnamonDesktopProps) {
   const {
     windows,
@@ -95,6 +97,7 @@ export default function CinnamonDesktop({
       clockTime={clockTime}
       isDark={isDark}
       notification={notification}
+      showHomeShortcut={showHomeShortcut}
       onBringToFront={bringToFront}
       onOpenWindow={handleOpenWindow}
       onOpenPost={openPostWindow}

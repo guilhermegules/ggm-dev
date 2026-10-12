@@ -1,0 +1,32 @@
+---
+import BaseHead from "@components/BaseHead.astro";
+import { SITE_DESCRIPTION } from "../../consts";
+import CinnamonDesktop from "@components/desktop/CinnamonDesktop";
+import { getBlogPosts } from "../../utils/posts";
+
+const posts = await getBlogPosts();
+---
+
+<!doctype html>
+<html lang="pt-br" data-accent="mint" class="h-full overflow-hidden">
+  <head>
+    <BaseHead title="Blog • Guilherme Gules" description={SITE_DESCRIPTION} />
+  </head>
+  <body class="cin-body h-full overflow-hidden m-0 p-0">
+    <CinnamonDesktop client:load posts={posts} initialWindow="blog" showHomeShortcut />
+
+    <div class="sr-only">
+      <h1>Blog - Guilherme Gules Moreira</h1>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`}>{post.title}</a>
+              <p>{post.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </body>
+</html>
