@@ -1,74 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { LIGHT_THEME, DARK_THEME, SITE_THEME_KEY } from "../../consts";
-
-const ACCENTS = [
-  { id: "mint", name: "Mint (Padrão)", color: "#35a854" },
-  { id: "aqua", name: "Aqua", color: "#1f9ede" },
-  { id: "blue", name: "Azul", color: "#0c75de" },
-  { id: "teal", name: "Teal", color: "#199ca8" },
-  { id: "orange", name: "Laranja", color: "#ff7139" },
-  { id: "red", name: "Vermelho", color: "#e82127" },
-  { id: "purple", name: "Roxo", color: "#8c5dd9" },
-  { id: "pink", name: "Rosa", color: "#e54980" },
-  { id: "sand", name: "Areia", color: "#c5a07c" },
-  { id: "grey", name: "Cinza", color: "#70737a" },
-];
+import React, { useState } from "react";
+import { useTheme } from "./hooks/useTheme";
 
 export default function SettingsWindow() {
   const [activeTab, setActiveTab] = useState<"appearance" | "info">("appearance");
-  const [isDark, setIsDark] = useState(false);
-  const [currentAccent, setCurrentAccent] = useState("mint");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem(SITE_THEME_KEY);
-    setIsDark(savedTheme === DARK_THEME);
-
-    const savedAccent = document.documentElement.getAttribute("data-accent") || "mint";
-    setCurrentAccent(savedAccent);
-  }, []);
-
-  const handleToggleTheme = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-
-    const nextTheme = nextDark ? DARK_THEME : LIGHT_THEME;
-    const prevTheme = nextDark ? LIGHT_THEME : DARK_THEME;
-
-    localStorage.setItem(SITE_THEME_KEY, nextTheme);
-
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    document.documentElement.classList.remove(prevTheme);
-    document.documentElement.classList.add(nextTheme);
-
-    if (document.body) {
-      document.body.setAttribute("data-theme", nextTheme);
-      document.body.classList.remove(prevTheme);
-      document.body.classList.add(nextTheme);
-    }
-
-    if (nextDark) {
-      document.documentElement.classList.add("cin-dark");
-      document.body?.classList.add("cin-dark");
-    } else {
-      document.documentElement.classList.remove("cin-dark");
-      document.body?.classList.remove("cin-dark");
-    }
-
-    window.dispatchEvent(new CustomEvent("theme-change"));
-  };
-
-  const handleSelectAccent = (accentId: string) => {
-    setCurrentAccent(accentId);
-    if (accentId === "mint") {
-      document.documentElement.removeAttribute("data-accent");
-    } else {
-      document.documentElement.setAttribute("data-accent", accentId);
-    }
-  };
+  const { isDark, currentAccent, toggleTheme, selectAccent, accents } = useTheme();
 
   return (
     <div className="flex flex-col h-full bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)] overflow-hidden">
-      {/* Settings Tab Bar */}
       <div className="cin-tabs bg-[var(--cin-bg-surface)] px-4 pt-2 border-b border-[var(--cin-separator)]">
         <button
           type="button"
@@ -89,7 +27,6 @@ export default function SettingsWindow() {
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {activeTab === "appearance" && (
           <>
-            {/* Theme Card */}
             <div className="cin-pref-card">
               <div className="cin-pref-row">
                 <div className="cin-pref-icon text-xl">{isDark ? "🌙" : "☀️"}</div>
@@ -103,7 +40,7 @@ export default function SettingsWindow() {
                       type="checkbox"
                       className="cin-switch-input"
                       checked={isDark}
-                      onChange={handleToggleTheme}
+                      onChange={toggleTheme}
                     />
                     <div className="cin-switch-track">
                       <div className="cin-switch-thumb" />
@@ -123,11 +60,11 @@ export default function SettingsWindow() {
               </p>
 
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                {ACCENTS.map((item) => (
+                {accents.map((item) => (
                   <button
                     key={item.id}
                     type="button"
-                    onClick={() => handleSelectAccent(item.id)}
+                    onClick={() => selectAccent(item.id)}
                     className={`flex items-center gap-2 p-2 rounded-md border text-left cursor-pointer transition-all ${
                       currentAccent === item.id
                         ? "border-[var(--cin-accent)] bg-[var(--cin-accent-subtle)] font-bold"

@@ -5,6 +5,7 @@ export interface BlogPostData {
   pubDate: string;
   heroImage?: string;
   body?: string;
+  html?: string;
 }
 
 export type WindowType =
