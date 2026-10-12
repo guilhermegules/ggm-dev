@@ -58,8 +58,9 @@ const { title, description, image = "/blog-cover-default.png" } = Astro.props;
 <script is:inline>
     (() => {
         const theme = localStorage.getItem("theme") ?? "light";
+        const accent = localStorage.getItem("accent") ?? "mint";
         document.documentElement.setAttribute("data-theme", theme);
-        document.documentElement.setAttribute("data-accent", "mint");
+        document.documentElement.setAttribute("data-accent", accent);
         if (theme === "dark") {
             document.documentElement.classList.add("dark", "cin-dark");
         } else {
@@ -68,11 +69,13 @@ const { title, description, image = "/blog-cover-default.png" } = Astro.props;
     })();
 </script>
 <script>
-    import { SITE_THEME_KEY, DARK_THEME } from "../consts";
+    import { SITE_THEME_KEY, SITE_ACCENT_KEY, DARK_THEME } from "../consts";
 
     const theme = localStorage.getItem(SITE_THEME_KEY) ?? "light";
+    const accent = localStorage.getItem(SITE_ACCENT_KEY) ?? "mint";
     document.body.classList.add("cin-body");
     document.body.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-accent", accent);
     if (theme === DARK_THEME) {
         document.body.classList.add("dark", "cin-dark");
     } else {

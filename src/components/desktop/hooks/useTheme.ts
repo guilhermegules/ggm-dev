@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { LIGHT_THEME, DARK_THEME, SITE_THEME_KEY } from "../../../consts";
+import { LIGHT_THEME, DARK_THEME, SITE_THEME_KEY, SITE_ACCENT_KEY } from "../../../consts";
 
 export const MINT_ACCENTS = [
   { id: "mint", name: "Mint (Padrão)", color: "#35a854" },
@@ -24,19 +24,37 @@ export function useTheme() {
     setIsDark(isDarkTheme);
 
     const savedAccent =
-      document.documentElement.getAttribute("data-accent") || "mint";
+      localStorage.getItem(SITE_ACCENT_KEY) ||
+      document.documentElement.getAttribute("data-accent") ||
+      "mint";
     setCurrentAccent(savedAccent);
 
     const handleThemeChange = () => {
       const activeTheme = localStorage.getItem(SITE_THEME_KEY);
       setIsDark(activeTheme === DARK_THEME);
-      setCurrentAccent(
-        document.documentElement.getAttribute("data-accent") || "mint"
-      );
+    };
+
+    const handleAccentChange = (e?: Event) => {
+      const customEvent = e as CustomEvent<string> | undefined;
+      const activeAccent =
+        customEvent?.detail ||
+        localStorage.getItem(SITE_ACCENT_KEY) ||
+        document.documentElement.getAttribute("data-accent") ||
+        "mint";
+      setCurrentAccent(activeAccent);
     };
 
     window.addEventListener("theme-change", handleThemeChange);
-    return () => window.removeEventListener("theme-change", handleThemeChange);
+    window.addEventListener("accent-change", handleAccentChange);
+    window.addEventListener("storage", handleThemeChange);
+    window.addEventListener("storage", handleAccentChange);
+
+    return () => {
+      window.removeEventListener("theme-change", handleThemeChange);
+      window.removeEventListener("accent-change", handleAccentChange);
+      window.removeEventListener("storage", handleThemeChange);
+      window.removeEventListener("storage", handleAccentChange);
+    };
   }, []);
 
   const toggleTheme = useCallback(() => {
@@ -72,11 +90,14 @@ export function useTheme() {
 
   const selectAccent = useCallback((accentId: string) => {
     setCurrentAccent(accentId);
-    if (accentId === "mint") {
-      document.documentElement.removeAttribute("data-accent");
-    } else {
-      document.documentElement.setAttribute("data-accent", accentId);
+    localStorage.setItem(SITE_ACCENT_KEY, accentId);
+
+    document.documentElement.setAttribute("data-accent", accentId);
+    if (document.body) {
+      document.body.setAttribute("data-accent", accentId);
     }
+
+    window.dispatchEvent(new CustomEvent("accent-change", { detail: accentId }));
   }, []);
 
   return {

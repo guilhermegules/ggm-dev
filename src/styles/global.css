@@ -4,9 +4,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --cin-accent: var(--cin-accent-mint, #35a854);
   --accent: var(--cin-accent);
-  --accent-dark: var(--cin-accent-mint-active, #2e934a);
+  --accent-dark: var(--cin-accent-active, #2e934a);
   --black: 15, 18, 25;
   --gray: 96, 115, 159;
   --gray-light: 229, 233, 240;
@@ -17,6 +16,14 @@
   --gray-800: #1f2937;
   --gray-600: #4b5563;
   --gray-400: #9ca3af;
+}
+
+[data-accent="mint"] {
+  --cin-accent: var(--cin-accent-mint, #35a854);
+  --cin-accent-hover: var(--cin-accent-mint-hover, #3bb85d);
+  --cin-accent-active: var(--cin-accent-mint-active, #2e934a);
+  --cin-accent-fg: var(--cin-accent-mint-fg, #fff);
+  --cin-accent-subtle: rgba(53, 168, 84, 0.15);
 }
 
 @font-face {
@@ -240,7 +247,7 @@ body.h-full {
   user-select: none;
   background-color: #2b3038;
   background-image: 
-    radial-gradient(circle at 50% 30%, rgba(53, 168, 84, 0.22), transparent 70%),
+    radial-gradient(circle at 50% 30%, var(--cin-accent-subtle, rgba(53, 168, 84, 0.22)), transparent 70%),
     linear-gradient(135deg, #1b2028 0%, #2f3844 50%, #1a1e24 100%);
   background-size: cover;
   background-position: center;
@@ -250,8 +257,25 @@ body.h-full {
 .cin-dark .cin-desktop {
   background-color: #1e2126;
   background-image: 
-    radial-gradient(circle at 50% 30%, rgba(53, 168, 84, 0.18), transparent 70%),
+    radial-gradient(circle at 50% 30%, var(--cin-accent-subtle, rgba(53, 168, 84, 0.18)), transparent 70%),
     linear-gradient(135deg, #15181d 0%, #242931 50%, #121417 100%);
+}
+
+/* Desktop Icon Single-Line Adjustment */
+.cin-desktop-icon {
+  width: 96px;
+  height: 92px;
+  padding: 6px 4px;
+}
+
+.cin-desktop-icon-label {
+  white-space: nowrap;
+  word-break: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+  display: block;
+  max-height: none;
 }
 
 .cin-window {
