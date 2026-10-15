@@ -50,7 +50,7 @@ export function useTerminal({ posts, onOpenWindow, onOpenPost }: UseTerminalOpti
           output = (
             <div className="text-xs font-mono space-y-1 text-gray-300">
               <div className="text-[var(--cin-accent,#35a854)] font-bold">Guilherme Gules Moreira (Gules)</div>
-              <div>Desenvolvedor Full Stack apaixonado por arquiteturas escaláveis e produtos acessíveis.</div>
+              <div>Engenheiro de Software Sênior • Fullstack em ambientes de alta complexidade & IA Generativa.</div>
               <div>Criador da biblioteca Cinnamon CSS, emulando o ambiente Linux Mint para a web.</div>
             </div>
           );
@@ -59,10 +59,10 @@ export function useTerminal({ posts, onOpenWindow, onOpenPost }: UseTerminalOpti
         case "skills":
           output = (
             <div className="text-xs font-mono space-y-2 text-gray-300">
-              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Frontend]:</span> TypeScript, JavaScript, React, Angular, Tailwind CSS, Cinnamon CSS, Astro</div>
-              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Backend]:</span> Node.js, NestJS, Express, Java, Spring Boot</div>
-              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Arquitetura]:</span> Microfrontends, Backends For Frontends (BFF), REST APIs, C4 Model</div>
-              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Boas Práticas]:</span> WCAG Accessibility, Clean Code, Testes Automatizados</div>
+              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Backend]:</span> Java (Spring Boot), Node.js (NestJS, Express), APIs REST, Mensageria, Microsserviços</div>
+              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Frontend]:</span> React, TypeScript, Angular, Tailwind CSS, Cinnamon CSS, Astro, Micro Frontends</div>
+              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[Arquitetura]:</span> Microsserviços, BFFs, Observabilidade, Processamento Assíncrono, C4 Model</div>
+              <div><span className="text-[var(--cin-accent,#35a854)] font-bold">[IA & Engenharia]:</span> Spec-Driven Development, Kiro, Amazon Q, Agentes Autônomos e Skills Customizadas</div>
             </div>
           );
           break;

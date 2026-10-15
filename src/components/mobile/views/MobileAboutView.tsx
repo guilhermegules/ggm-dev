@@ -23,12 +23,12 @@ export default function MobileAboutView({ posts, onGoToBlog }: MobileAboutViewPr
               Guilherme Gules Moreira
             </h1>
             <p className="text-xs sm:text-sm text-[var(--cin-fg-dim)] mb-3 leading-relaxed">
-              Desenvolvedor Full Stack • Especialista em Arquitetura & Acessibilidade
+              Engenheiro de Software Sênior • Fullstack & Inteligência Artificial
             </p>
             <div className="flex flex-wrap gap-1.5 justify-center sm:justify-start">
-              <span className="cin-badge">React & Angular</span>
-              <span className="cin-badge">Node.js & Java</span>
-              <span className="cin-badge">WCAG Acessibilidade</span>
+              <span className="cin-badge">Java & Spring Boot</span>
+              <span className="cin-badge">Node.js & React</span>
+              <span className="cin-badge">IA Generativa & SDD</span>
               <span className="cin-badge">Cinnamon CSS</span>
             </div>
           </div>
@@ -72,30 +72,30 @@ export default function MobileAboutView({ posts, onGoToBlog }: MobileAboutViewPr
           <div className="cin-box p-4 rounded-xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)]">
             <div className="text-2xl mb-2">🚀</div>
             <h3 className="text-sm font-bold text-[var(--cin-fg-base)] mb-1">
-              Desenvolvimento Full Stack
+              Engenharia Full Stack & Alta Complexidade
             </h3>
             <p className="text-xs text-[var(--cin-fg-dim)] leading-relaxed m-0">
-              Aplicações resilientes com TypeScript, Angular, React, Node.js, NestJS e Spring.
+              Aplicações escaláveis e resilientes com Java (Spring Boot), Node.js (NestJS/Express) e React.
             </p>
           </div>
 
           <div className="cin-box p-4 rounded-xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)]">
             <div className="text-2xl mb-2">🏛️</div>
             <h3 className="text-sm font-bold text-[var(--cin-fg-base)] mb-1">
-              Arquitetura & Escalabilidade
+              Arquitetura de Microsserviços & BFFs
             </h3>
             <p className="text-xs text-[var(--cin-fg-dim)] leading-relaxed m-0">
-              Separação modular com Microfrontends e Backends for Frontends (BFFs).
+              Concepção ponta a ponta, Micro Frontends, mensageria, observabilidade e modernização tecnológica.
             </p>
           </div>
 
           <div className="cin-box p-4 rounded-xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)]">
-            <div className="text-2xl mb-2">♿</div>
+            <div className="text-2xl mb-2">🤖</div>
             <h3 className="text-sm font-bold text-[var(--cin-fg-base)] mb-1">
-              Acessibilidade Digital (WCAG)
+              IA Generativa no Ciclo de Desenvolvimento
             </h3>
             <p className="text-xs text-[var(--cin-fg-dim)] leading-relaxed m-0">
-              Interfaces inclusivas com semântica acessível e alto padrão de usabilidade.
+              Spec-Driven Development, Kiro, Amazon Q, agentes especializados e skills customizadas.
             </p>
           </div>
 
@@ -118,13 +118,10 @@ export default function MobileAboutView({ posts, onGoToBlog }: MobileAboutViewPr
         </h2>
         <div className="text-xs sm:text-sm text-[var(--cin-fg-base)] leading-relaxed space-y-3">
           <p className="m-0">
-            Meu nome é Guilherme Gules Moreira ou apenas Gules, sou desenvolvedor de software, apaixonado por criar soluções escaláveis e impactantes. Desde que comecei minha jornada na tecnologia, mergulhei de cabeça no universo do desenvolvimento full stack, explorando frameworks como Angular, React, Node.js, NestJS e Spring.
+            Sou Engenheiro de Software Sênior, com sólida experiência no desenvolvimento, evolução e modernização de aplicações escaláveis e de alta disponibilidade, atuando como Fullstack em ambientes de alta complexidade. Tenho experiência com Java (Spring Boot), Node.js (NestJS/Express) e React, com forte atuação em arquitetura de microsserviços, BFFs (Backend for Frontend) e Micro Frontends. Atuo desde a concepção e arquitetura até a implementação e sustentação de soluções, incluindo criação de serviços do zero, definição de padrões, observabilidade, integrações via APIs REST, processamento assíncrono, mensageria e estratégias de modernização tecnológica, incluindo evolução para versões mais recentes do Java.
           </p>
           <p className="m-0">
-            Além de escrever código, me dedico a arquiteturas modernas como Microfrontends e Backends for Frontends (BFFs), sempre buscando separar responsabilidades de forma eficiente e inteligente.
-          </p>
-          <p className="m-0">
-            Acredito que compartilhar conhecimento é tão importante quanto escrever uma boa função assíncrona. Atualmente, priorizo acessibilidade seguindo as diretrizes da WCAG, garantindo que a tecnologia seja inclusiva e acessível a todas as pessoas.
+            Tenho forte atuação na aplicação de Inteligência Artificial Generativa ao ciclo de desenvolvimento, utilizando Spec-Driven Development, Kiro e Amazon Q. Desenvolvo e utilizo skills customizadas e agentes especializados para automatizar atividades de desenvolvimento, testes de integração entre microsserviços, publicação e consumo de mensagens, validação de fluxos ponta a ponta e migração e transformação de sistemas. Busco combinar visão arquitetural, excelência técnica e inovação para construir soluções robustas e sustentáveis, promovendo automação, melhoria contínua, qualidade de engenharia e colaboração entre equipes.
           </p>
         </div>
       </section>
