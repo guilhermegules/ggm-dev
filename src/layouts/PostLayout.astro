@@ -27,16 +27,13 @@ const formatDate = (date: Date) =>
 
   <body class="cin-body flex flex-col min-h-screen">
     <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 py-8">
-      <!-- Breadcrumb / Back link -->
       <div class="mb-4">
-        <a href="/blog" class="cin-btn cin-btn-sm cin-btn-flat">
+        <a href="/blog" class="cin-btn py-2 px-3 text-xs inline-flex items-center gap-1.5">
           &larr; Voltar para os artigos
         </a>
       </div>
 
-      <!-- Article in Cinnamon Document Viewer Window -->
       <article class="cin-window-card">
-        <!-- Window Titlebar -->
         <header class="cin-titlebar">
           <div class="cin-titlebar-left">
             <span class="cin-titlebar-icon">📄</span>
@@ -45,7 +42,7 @@ const formatDate = (date: Date) =>
             <span class="cin-titlebar-title truncate max-w-xs sm:max-w-md">{title}</span>
           </div>
           <div class="cin-titlebar-right">
-            <div class="cin-window-controls">
+            <div class="cin-window-controls hidden sm:flex">
               <button class="cin-win-btn cin-win-btn-min" type="button" aria-label="Minimizar">
                 <svg viewBox="0 0 12 12"><line x1="2" y1="6" x2="10" y2="6"></line></svg>
               </button>

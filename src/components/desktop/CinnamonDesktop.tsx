@@ -5,6 +5,7 @@ import { useWindowManager } from "./hooks/useWindowManager";
 import { useWindowDrag } from "./hooks/useWindowDrag";
 import { useTheme } from "./hooks/useTheme";
 import { useClock } from "./hooks/useClock";
+import MobileTabletLayout from "../mobile/MobileTabletLayout";
 
 interface CinnamonDesktopProps {
   posts: BlogPostData[];
@@ -88,35 +89,46 @@ export default function CinnamonDesktop({
   );
 
   return (
-    <CinnamonDesktopPresenter
-      windows={windows}
-      activeWindowId={activeWindowId}
-      posts={posts}
-      isMenuOpen={isMenuOpen}
-      menuSearch={menuSearch}
-      clockTime={clockTime}
-      isDark={isDark}
-      notification={notification}
-      showHomeShortcut={showHomeShortcut}
-      onBringToFront={bringToFront}
-      onOpenWindow={handleOpenWindow}
-      onOpenPost={openPostWindow}
-      onCloseWindow={closeWindow}
-      onMinimizeWindow={minimizeWindow}
-      onToggleMaximize={toggleMaximize}
-      onTaskbarClick={handleTaskbarClick}
-      onShowDesktop={toggleShowDesktop}
-      onTitlebarMouseDown={(winId, initialX, initialY, isMaximized, e) =>
-        startDrag(winId, initialX, initialY, isMaximized, e)
-      }
-      onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
-      onCloseMenu={() => {
-        if (isMenuOpen) setIsMenuOpen(false);
-      }}
-      onMenuSearchChange={setMenuSearch}
-      onToggleTheme={toggleTheme}
-      onNotificationDismiss={() => setNotification(null)}
-      onNotificationTrigger={showNotification}
-    />
+    <>
+      <div className="hidden lg:block w-full h-full">
+        <CinnamonDesktopPresenter
+          windows={windows}
+          activeWindowId={activeWindowId}
+          posts={posts}
+          isMenuOpen={isMenuOpen}
+          menuSearch={menuSearch}
+          clockTime={clockTime}
+          isDark={isDark}
+          notification={notification}
+          showHomeShortcut={showHomeShortcut}
+          onBringToFront={bringToFront}
+          onOpenWindow={handleOpenWindow}
+          onOpenPost={openPostWindow}
+          onCloseWindow={closeWindow}
+          onMinimizeWindow={minimizeWindow}
+          onToggleMaximize={toggleMaximize}
+          onTaskbarClick={handleTaskbarClick}
+          onShowDesktop={toggleShowDesktop}
+          onTitlebarMouseDown={(winId, initialX, initialY, isMaximized, e) =>
+            startDrag(winId, initialX, initialY, isMaximized, e)
+          }
+          onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
+          onCloseMenu={() => {
+            if (isMenuOpen) setIsMenuOpen(false);
+          }}
+          onMenuSearchChange={setMenuSearch}
+          onToggleTheme={toggleTheme}
+          onNotificationDismiss={() => setNotification(null)}
+          onNotificationTrigger={showNotification}
+        />
+      </div>
+
+      <div className="block lg:hidden min-h-screen">
+        <MobileTabletLayout
+          posts={posts}
+          initialTab={initialWindow === "blog" ? "blog" : "about"}
+        />
+      </div>
+    </>
   );
 }

@@ -8,11 +8,11 @@ const posts = await getBlogPosts();
 ---
 
 <!doctype html>
-<html lang="pt-br" data-accent="mint" class="h-full overflow-hidden">
+<html lang="pt-br" data-accent="mint" class="h-full">
   <head>
     <BaseHead title="Blog • Guilherme Gules" description={SITE_DESCRIPTION} />
   </head>
-  <body class="cin-body h-full overflow-hidden m-0 p-0">
+  <body class="cin-body min-h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden lg:h-full">
     <CinnamonDesktop client:load posts={posts} initialWindow="blog" showHomeShortcut />
 
     <div class="sr-only">

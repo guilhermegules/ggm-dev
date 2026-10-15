@@ -232,12 +232,24 @@ hr {
   border: 1px solid rgba(53, 168, 84, 0.28);
 }
 
-/* Cinnamon Desktop OS Mode overrides */
-html.h-full,
-body.h-full {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+@media (min-width: 1025px) {
+  html.h-full,
+  body.h-full {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 1024px) {
+  html.h-full,
+  body.h-full {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .cin-desktop {
