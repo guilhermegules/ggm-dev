@@ -1,58 +1,34 @@
 ---
 import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import "../styles/home.style.css";
-import { getCollection } from "astro:content";
-import BlogPostList from "@components/BlogPostList.astro";
-import Anchor from "@components/Anchor.astro";
+import CinnamonDesktop from "@components/desktop/CinnamonDesktop";
+import { getBlogPosts } from "../utils/posts";
 
-const posts = (await getCollection("blog"))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+const posts = await getBlogPosts();
 ---
 
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" data-accent="mint" class="h-full">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
-  <body>
-    <Header />
-    <main>
-      <section class="mb-16">
-        <div class="flex items-center gap-6 mb-8">
-          <img src="/me.jpg" alt="" class="rounded-2xl" />
-          <h1>Olá</h1>
-        </div>
-        <p>
-          Meu nome é Guilherme Gules Moreira ou apenas Gules, sou desenvolvedor
-          de software, apaixonado por criar soluções escaláveis e impactantes.
-          Desde que comecei minha jornada na tecnologia, mergulhei de cabeça no
-          universo do desenvolvimento full stack, explorando frameworks como
-          Angular, React, Node.js, NestJS e Spring. Além de escrever código, me
-          dedico a arquiteturas modernas como Microfrontends e Backends for
-          Frontends (BFFs), sempre buscando separar responsabilidades de forma
-          eficiente e inteligente.
-        </p>
-        <p>
-          Mas não vivo só de código e commits! Acredito que compartilhar
-          conhecimento é tão importante quanto escrever uma boa função
-          assíncrona. Por isso, estou sempre trocando ideias sobre tecnologia,
-          acessibilidade e arquitetura de software. Se quiser bater um papo, é
-          só chamar – prometo que o bug do dia pode esperar um pouco!
-        </p>
-      </section>
+  <body class="cin-body min-h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden lg:h-full">
+    <CinnamonDesktop client:load posts={posts} />
 
-      <section class="grid gap-6">
-        <h2 class="mb-8">Novidades no Blog</h2>
-        <BlogPostList posts={posts} isAllCardsSmall />
-        <div class="flex items-center justify-center">
-          <Anchor href="/blog">Ver todos os posts</Anchor>
-        </div>
-      </section>
-    </main>
-    <Footer />
+    <div class="sr-only">
+      <h1>Guilherme Gules Moreira</h1>
+      <p>{SITE_DESCRIPTION}</p>
+      <h2>Artigos do Blog</h2>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`}>{post.title}</a>
+              <p>{post.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </body>
 </html>

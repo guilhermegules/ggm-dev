@@ -1,28 +1,32 @@
 ---
 import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
 import { SITE_DESCRIPTION } from "../../consts";
-import { getCollection } from "astro:content";
-import BlogPostList from "@components/BlogPostList.astro";
+import CinnamonDesktop from "@components/desktop/CinnamonDesktop";
+import { getBlogPosts } from "../../utils/posts";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const posts = await getBlogPosts();
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-br" data-accent="mint" class="h-full">
   <head>
-    <BaseHead title="Blog" description={SITE_DESCRIPTION} />
+    <BaseHead title="Blog • Guilherme Gules" description={SITE_DESCRIPTION} />
   </head>
-  <body>
-    <Header />
-    <main>
-      <section>
-        <BlogPostList posts={posts} />
-      </section>
-    </main>
-    <Footer />
+  <body class="cin-body min-h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden lg:h-full">
+    <CinnamonDesktop client:load posts={posts} initialWindow="blog" showHomeShortcut />
+
+    <div class="sr-only">
+      <h1>Blog - Guilherme Gules Moreira</h1>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`}>{post.title}</a>
+              <p>{post.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </body>
 </html>
