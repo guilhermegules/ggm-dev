@@ -1,0 +1,56 @@
+---
+import BaseHead from "@components/BaseHead.astro";
+import CinnamonDesktop from "@components/desktop/CinnamonDesktop.astro";
+import type { BlogPostData } from "@components/desktop/types";
+
+interface Props {
+  title: string;
+  description: string;
+  posts: BlogPostData[];
+  initialWindow?: string;
+  initialPostSlug?: string;
+  showHomeShortcut?: boolean;
+  seoHeading?: string;
+}
+
+const {
+  title,
+  description,
+  posts,
+  initialWindow,
+  initialPostSlug,
+  showHomeShortcut = false,
+  seoHeading = "Guilherme Gules Moreira",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="pt-br" data-accent="mint" class="h-full">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body class="cin-body min-h-full m-0 p-0 overflow-x-hidden lg:overflow-hidden lg:h-full">
+    <CinnamonDesktop
+      posts={posts}
+      initialWindow={initialWindow}
+      initialPostSlug={initialPostSlug}
+      showHomeShortcut={showHomeShortcut}
+    />
+
+    <div class="sr-only">
+      <h1>{seoHeading}</h1>
+      <p>{description}</p>
+      <h2>Artigos do Blog</h2>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}`}>{post.title}</a>
+              <p>{post.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </body>
+</html>

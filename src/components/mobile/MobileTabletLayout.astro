@@ -1,0 +1,134 @@
+---
+import type { BlogPostData } from "../desktop/types";
+import MobileHeader from "./MobileHeader.astro";
+import MobileBottomBar, { type MobileTab } from "./MobileBottomBar.astro";
+import MobileAboutView from "./views/MobileAboutView.astro";
+import MobileBlogView from "./views/MobileBlogView.astro";
+import MobileLinksView from "./views/MobileLinksView.astro";
+import MobileSettingsView from "./views/MobileSettingsView.astro";
+
+interface Props {
+  posts: BlogPostData[];
+  initialTab?: MobileTab;
+}
+
+const TAB_TITLES: Record<MobileTab, string> = {
+  about: "Sobre Mim",
+  blog: "Artigos & Blog",
+  links: "Projetos & Links",
+  settings: "Ajustes do Sistema",
+};
+
+const { posts, initialTab = "about" } = Astro.props;
+---
+
+<div
+  class="min-h-screen bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)] flex flex-col font-sans transition-colors"
+  data-mobile-layout
+  data-initial-tab={initialTab}
+>
+  <MobileHeader currentTabName={TAB_TITLES[initialTab]} />
+
+  <main class="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-20">
+    <div data-mobile-tab-panel="about" class:list={[{ hidden: initialTab !== "about" }]}>
+      <MobileAboutView posts={posts} />
+    </div>
+    <div data-mobile-tab-panel="blog" class:list={[{ hidden: initialTab !== "blog" }]}>
+      <MobileBlogView posts={posts} />
+    </div>
+    <div data-mobile-tab-panel="links" class:list={[{ hidden: initialTab !== "links" }]}>
+      <MobileLinksView />
+    </div>
+    <div data-mobile-tab-panel="settings" class:list={[{ hidden: initialTab !== "settings" }]}>
+      <MobileSettingsView />
+    </div>
+  </main>
+
+  <MobileBottomBar activeTab={initialTab} blogCount={posts.length} />
+</div>
+
+<script>
+  type MobileTab = "about" | "blog" | "links" | "settings";
+
+  const VALID_TABS: MobileTab[] = ["about", "blog", "links", "settings"];
+  const TAB_TITLES: Record<MobileTab, string> = {
+    about: "Sobre Mim",
+    blog: "Artigos & Blog",
+    links: "Projetos & Links",
+    settings: "Ajustes do Sistema",
+  };
+
+  function initMobileTabletLayouts() {
+    document.querySelectorAll<HTMLElement>("[data-mobile-layout]").forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+
+      const subtitleEl = root.querySelector<HTMLElement>("[data-mobile-header-subtitle]");
+      const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-mobile-tab-panel]"));
+      const tabBtns = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-mobile-tab-btn]"));
+      const triggerBtns = Array.from(root.querySelectorAll<HTMLElement>("[data-mobile-tab-trigger]"));
+
+      const setActiveTab = (tab: MobileTab, updateUrl = true) => {
+        panels.forEach((panel) => {
+          const isMatch = panel.dataset.mobileTabPanel === tab;
+          panel.classList.toggle("hidden", !isMatch);
+        });
+
+        tabBtns.forEach((btn) => {
+          const isMatch = btn.dataset.mobileTabBtn === tab;
+          btn.classList.toggle("text-[var(--cin-accent)]", isMatch);
+          btn.classList.toggle("font-semibold", isMatch);
+          btn.classList.toggle("text-[var(--cin-fg-dim)]", !isMatch);
+          btn.classList.toggle("hover:text-[var(--cin-fg-base)]", !isMatch);
+
+          const pill = btn.querySelector<HTMLElement>("[data-mobile-tab-pill]");
+          if (pill) {
+            pill.classList.toggle("bg-[var(--cin-accent-subtle)]", isMatch);
+          }
+        });
+
+        if (subtitleEl) {
+          subtitleEl.textContent = TAB_TITLES[tab] || "Full Stack Developer";
+        }
+
+        if (updateUrl) {
+          const url = new URL(window.location.href);
+          if (tab === "about") {
+            url.searchParams.delete("tab");
+          } else {
+            url.searchParams.set("tab", tab);
+          }
+          window.history.replaceState({}, "", url.toString());
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab") as MobileTab | null;
+      if (tabParam && VALID_TABS.includes(tabParam)) {
+        setActiveTab(tabParam, false);
+      }
+
+      tabBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.mobileTabBtn as MobileTab | undefined;
+          if (tab && VALID_TABS.includes(tab)) {
+            setActiveTab(tab, true);
+          }
+        });
+      });
+
+      triggerBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const tab = btn.dataset.mobileTabTrigger as MobileTab | undefined;
+          if (tab && VALID_TABS.includes(tab)) {
+            setActiveTab(tab, true);
+          }
+        });
+      });
+    });
+  }
+
+  initMobileTabletLayouts();
+  document.addEventListener("astro:page-load", initMobileTabletLayouts);
+</script>
