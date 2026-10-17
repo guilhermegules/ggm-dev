@@ -16,21 +16,21 @@ const { icon, label, windowId, href, download, title } = Astro.props;
     <a
       href={href}
       download={download ? true : undefined}
-      className="cin-desktop-icon no-underline"
+      class="cin-desktop-icon no-underline"
       title={title || label}
     >
-      <div className="cin-desktop-icon-img text-3xl">{icon}</div>
-      <div className="cin-desktop-icon-label">{label}</div>
+      <div class="cin-desktop-icon-img text-3xl">{icon}</div>
+      <div class="cin-desktop-icon-label">{label}</div>
     </a>
   ) : (
     <button
       type="button"
       data-window-id={windowId}
-      className="cin-desktop-icon bg-transparent border-0 cursor-pointer text-inherit p-0"
+      class="cin-desktop-icon bg-transparent border-0 cursor-pointer text-inherit p-0"
       title={title || `Clique para abrir ${label}`}
     >
-      <div className="cin-desktop-icon-img text-3xl">{icon}</div>
-      <div className="cin-desktop-icon-label">{label}</div>
+      <div class="cin-desktop-icon-img text-3xl">{icon}</div>
+      <div class="cin-desktop-icon-label">{label}</div>
     </button>
   )
 }

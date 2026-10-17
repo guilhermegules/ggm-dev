@@ -79,9 +79,26 @@ const DEFAULT_WINDOWS: WindowItem[] = [
   },
 ];
 
-export function useWindowManager(initialWindows: WindowItem[] = DEFAULT_WINDOWS) {
-  const [windows, setWindows] = useState<WindowItem[]>(initialWindows);
-  const [activeWindowId, setActiveWindowId] = useState<string>("terminal");
+interface UseWindowManagerOptions {
+  initialWindows?: WindowItem[];
+  initialWindow?: string;
+}
+
+export function useWindowManager(options: UseWindowManagerOptions = {}) {
+  const { initialWindows = DEFAULT_WINDOWS, initialWindow } = options;
+
+  const [windows, setWindows] = useState<WindowItem[]>(() => {
+    if (!initialWindow) return initialWindows;
+    return initialWindows.map((w) =>
+      w.id === initialWindow
+        ? { ...w, isOpen: true, isMinimized: false, zIndex: 20 }
+        : w
+    );
+  });
+
+  const [activeWindowId, setActiveWindowId] = useState<string>(
+    initialWindow || "terminal"
+  );
   const maxZIndexRef = useRef<number>(20);
 
   const bringToFront = useCallback((winId: string) => {
