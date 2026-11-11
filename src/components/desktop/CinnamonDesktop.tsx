@@ -5,20 +5,27 @@ import { useWindowManager } from "./hooks/useWindowManager";
 import { useWindowDrag } from "./hooks/useWindowDrag";
 import { useTheme } from "./hooks/useTheme";
 import { useClock } from "./hooks/useClock";
-import MobileTabletLayout from "../mobile/MobileTabletLayout";
 
 interface CinnamonDesktopProps {
   posts: BlogPostData[];
   initialWindow?: string;
   initialPostSlug?: string;
-  showHomeShortcut?: boolean;
+  desktopShortcuts?: React.ReactNode;
+  aboutWindow?: React.ReactNode;
+  blogWindow?: React.ReactNode;
+  settingsWindow?: React.ReactNode;
+  linksWindow?: React.ReactNode;
 }
 
 export default function CinnamonDesktop({
   posts,
   initialWindow,
   initialPostSlug,
-  showHomeShortcut = false,
+  desktopShortcuts,
+  aboutWindow,
+  blogWindow,
+  settingsWindow,
+  linksWindow,
 }: CinnamonDesktopProps) {
   const {
     windows,
@@ -31,7 +38,7 @@ export default function CinnamonDesktop({
     toggleMaximize,
     updateWindowPosition,
     toggleShowDesktop,
-  } = useWindowManager();
+  } = useWindowManager({ initialWindow });
 
   const { startDrag } = useWindowDrag({
     onDrag: updateWindowPosition,
@@ -50,7 +57,6 @@ export default function CinnamonDesktop({
     icon: string;
   } | null>(null);
 
-  // Handle deep linking or initial windows
   useEffect(() => {
     if (initialPostSlug) {
       const found = posts.find((p) => p.id === initialPostSlug);
@@ -89,46 +95,39 @@ export default function CinnamonDesktop({
   );
 
   return (
-    <>
-      <div className="hidden lg:block w-full h-full">
-        <CinnamonDesktopPresenter
-          windows={windows}
-          activeWindowId={activeWindowId}
-          posts={posts}
-          isMenuOpen={isMenuOpen}
-          menuSearch={menuSearch}
-          clockTime={clockTime}
-          isDark={isDark}
-          notification={notification}
-          showHomeShortcut={showHomeShortcut}
-          onBringToFront={bringToFront}
-          onOpenWindow={handleOpenWindow}
-          onOpenPost={openPostWindow}
-          onCloseWindow={closeWindow}
-          onMinimizeWindow={minimizeWindow}
-          onToggleMaximize={toggleMaximize}
-          onTaskbarClick={handleTaskbarClick}
-          onShowDesktop={toggleShowDesktop}
-          onTitlebarMouseDown={(winId, initialX, initialY, isMaximized, e) =>
-            startDrag(winId, initialX, initialY, isMaximized, e)
-          }
-          onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
-          onCloseMenu={() => {
-            if (isMenuOpen) setIsMenuOpen(false);
-          }}
-          onMenuSearchChange={setMenuSearch}
-          onToggleTheme={toggleTheme}
-          onNotificationDismiss={() => setNotification(null)}
-          onNotificationTrigger={showNotification}
-        />
-      </div>
-
-      <div className="block lg:hidden min-h-screen">
-        <MobileTabletLayout
-          posts={posts}
-          initialTab={initialWindow === "blog" ? "blog" : "about"}
-        />
-      </div>
-    </>
+    <CinnamonDesktopPresenter
+      windows={windows}
+      activeWindowId={activeWindowId}
+      posts={posts}
+      isMenuOpen={isMenuOpen}
+      menuSearch={menuSearch}
+      clockTime={clockTime}
+      isDark={isDark}
+      notification={notification}
+      desktopShortcuts={desktopShortcuts}
+      aboutWindow={aboutWindow}
+      blogWindow={blogWindow}
+      settingsWindow={settingsWindow}
+      linksWindow={linksWindow}
+      onBringToFront={bringToFront}
+      onOpenWindow={handleOpenWindow}
+      onOpenPost={openPostWindow}
+      onCloseWindow={closeWindow}
+      onMinimizeWindow={minimizeWindow}
+      onToggleMaximize={toggleMaximize}
+      onTaskbarClick={handleTaskbarClick}
+      onShowDesktop={toggleShowDesktop}
+      onTitlebarMouseDown={(winId, initialX, initialY, isMaximized, e) =>
+        startDrag(winId, initialX, initialY, isMaximized, e)
+      }
+      onToggleMenu={() => setIsMenuOpen((prev) => !prev)}
+      onCloseMenu={() => {
+        if (isMenuOpen) setIsMenuOpen(false);
+      }}
+      onMenuSearchChange={setMenuSearch}
+      onToggleTheme={toggleTheme}
+      onNotificationDismiss={() => setNotification(null)}
+      onNotificationTrigger={showNotification}
+    />
   );
 }

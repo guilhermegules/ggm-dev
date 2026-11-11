@@ -1,6 +1,14 @@
 import { getCollection } from "astro:content";
 import type { BlogPostData } from "@components/desktop/types";
 
+export function formatPostDate(date: Date): string {
+  return date.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 export async function getBlogPosts(): Promise<BlogPostData[]> {
   try {
     const rawPosts = await getCollection("blog");
@@ -10,13 +18,8 @@ export async function getBlogPosts(): Promise<BlogPostData[]> {
         id: post.id,
         title: post.data.title,
         description: post.data.description,
-        pubDate: post.data.pubDate.toLocaleDateString("pt-BR", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }),
+        pubDate: formatPostDate(post.data.pubDate),
         heroImage: post.data.heroImage,
-        body: post.body,
         html: post.rendered?.html,
       }));
   } catch {

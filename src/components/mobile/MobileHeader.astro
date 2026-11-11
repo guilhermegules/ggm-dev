@@ -1,0 +1,77 @@
+---
+interface Props {
+  currentTabName?: string;
+}
+
+const { currentTabName = "Full Stack Developer" } = Astro.props;
+---
+
+<header class="sticky top-0 z-40 w-full border-b border-[var(--cin-separator)] bg-[var(--cin-bg-surface)]/90 backdrop-blur-md transition-colors">
+  <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-[var(--cin-border)] bg-[var(--cin-bg-base)] flex items-center justify-center flex-shrink-0">
+        <img
+          src="/me.jpg"
+          alt="Guilherme Gules"
+          class="w-full h-full object-cover"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm font-bold leading-tight text-[var(--cin-fg-base)]">
+          Guilherme Gules
+        </span>
+        <span class="text-[11px] text-[var(--cin-fg-dim)] leading-none" data-mobile-header-subtitle>
+          {currentTabName}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[var(--cin-accent-subtle)] text-[var(--cin-accent)] border border-[var(--cin-accent)]/20">
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--cin-accent)] animate-pulse"></span>
+        Disponível
+      </span>
+
+      <button
+        type="button"
+        data-mobile-theme-btn
+        aria-label="Alternar para modo escuro"
+        class="w-9 h-9 rounded-lg border border-[var(--cin-border)] bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)] hover:border-[var(--cin-accent)] flex items-center justify-center text-base transition-colors cursor-pointer"
+      >
+        ☀️
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { isDarkTheme, toggleTheme, THEME_CHANGE_EVENT } from "../../utils/theme";
+
+  function syncMobileThemeButtons() {
+    const dark = isDarkTheme();
+    document.querySelectorAll<HTMLButtonElement>("[data-mobile-theme-btn]").forEach((btn) => {
+      btn.textContent = dark ? "🌙" : "☀️";
+      btn.setAttribute(
+        "aria-label",
+        dark ? "Alternar para modo claro" : "Alternar para modo escuro"
+      );
+    });
+  }
+
+  function initMobileHeader() {
+    document.querySelectorAll<HTMLButtonElement>("[data-mobile-theme-btn]").forEach((btn) => {
+      if (btn.dataset.initialized === "true") return;
+      btn.dataset.initialized = "true";
+      btn.addEventListener("click", () => {
+        toggleTheme();
+      });
+    });
+    syncMobileThemeButtons();
+  }
+
+  initMobileHeader();
+  window.addEventListener(THEME_CHANGE_EVENT, syncMobileThemeButtons);
+  window.addEventListener("storage", syncMobileThemeButtons);
+  document.addEventListener("astro:page-load", initMobileHeader);
+</script>

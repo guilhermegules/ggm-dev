@@ -1,5 +1,6 @@
 ---
 import BaseHead from "@components/BaseHead.astro";
+import { formatPostDate } from "../utils/posts";
 
 interface Props {
   title: string;
@@ -10,13 +11,6 @@ interface Props {
 }
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
-
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
 ---
 
 <!doctype html>
@@ -49,9 +43,9 @@ const formatDate = (date: Date) =>
               <button class="cin-win-btn cin-win-btn-max" type="button" aria-label="Maximizar">
                 <svg viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" rx="1" fill="none"></rect></svg>
               </button>
-              <button class="cin-win-btn cin-win-btn-close" type="button" aria-label="Fechar">
+              <a href="/blog" class="cin-win-btn cin-win-btn-close" aria-label="Fechar" title="Voltar para os artigos">
                 <svg viewBox="0 0 12 12"><path d="M3 3L9 9M9 3L3 9"></path></svg>
-              </button>
+              </a>
             </div>
           </div>
         </header>
@@ -73,10 +67,10 @@ const formatDate = (date: Date) =>
         <div class="p-6 md:p-10 bg-[var(--cin-bg-base)]">
           <header class="mb-8 pb-6 border-b border-[var(--cin-separator)]">
             <div class="flex items-center gap-2 mb-3">
-              <span class="cin-badge">{formatDate(pubDate)}</span>
+              <span class="cin-badge">{formatPostDate(pubDate)}</span>
               {updatedDate && (
                 <span class="text-xs text-[var(--cin-fg-subtle)] italic">
-                  (Atualizado em {formatDate(updatedDate)})
+                  (Atualizado em {formatPostDate(updatedDate)})
                 </span>
               )}
             </div>

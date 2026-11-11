@@ -1,0 +1,65 @@
+---
+import DesktopIcon from "./DesktopIcon.astro";
+
+interface Props {
+  showHomeShortcut?: boolean;
+}
+
+const { showHomeShortcut = false } = Astro.props;
+---
+
+<div class="cin-desktop-grid">
+  {
+    showHomeShortcut && (
+      <DesktopIcon
+        icon="🏠"
+        label="Início"
+        href="/"
+        title="Voltar para a página inicial"
+      />
+    )
+  }
+
+  <DesktopIcon
+    icon="👤"
+    label="Sobre Mim"
+    windowId="about"
+    title="Clique para abrir Sobre Mim"
+  />
+
+  <DesktopIcon
+    icon="📚"
+    label="Blog"
+    windowId="blog"
+    title="Clique para abrir o Blog"
+  />
+
+  <DesktopIcon
+    icon="⌨️"
+    label="Terminal"
+    windowId="terminal"
+    title="Clique para abrir o Terminal"
+  />
+
+  <DesktopIcon
+    icon="⚙️"
+    label="Configurações"
+    windowId="settings"
+    title="Clique para abrir Configurações"
+  />
+
+  <DesktopIcon
+    icon="🔗"
+    label="Projetos"
+    windowId="links"
+    title="Clique para abrir Links"
+  />
+
+  <DesktopIcon
+    icon="📄"
+    label="Currículo"
+    href="/files/curriculo-guilhermegulesmoreira.pdf"
+    download
+    title="Baixar Currículo em PDF"
+  />
+</div>

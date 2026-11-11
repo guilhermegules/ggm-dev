@@ -1,0 +1,175 @@
+---
+import { MINT_ACCENTS } from "../../../utils/theme";
+---
+
+<div class="space-y-4 pb-24" data-mobile-settings-view>
+  <div class="cin-box p-4 rounded-2xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)]">
+    <div class="flex items-center gap-2.5">
+      <span class="text-xl">⚙️</span>
+      <div>
+        <h1 class="text-base font-bold text-[var(--cin-fg-base)] leading-none">
+          Ajustes & Personalização
+        </h1>
+        <p class="text-xs text-[var(--cin-fg-dim)] mt-1 mb-0">
+          Preferências visuais e detalhes do sistema
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cin-box p-4 sm:p-5 rounded-2xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)] space-y-4">
+    <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--cin-fg-dim)] m-0">
+      Tema Visual
+    </h2>
+
+    <div class="flex items-center justify-between gap-4 p-3 rounded-xl bg-[var(--cin-bg-base)] border border-[var(--cin-border)]">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl" data-mobile-settings-theme-icon>☀️</span>
+        <div>
+          <div class="text-sm font-bold text-[var(--cin-fg-base)]">
+            Modo Escuro
+          </div>
+          <div class="text-xs text-[var(--cin-fg-dim)]" data-mobile-settings-theme-status>
+            Tema claro ativado
+          </div>
+        </div>
+      </div>
+
+      <label class="cin-switch cursor-pointer">
+        <input
+          type="checkbox"
+          class="cin-switch-input"
+          data-mobile-settings-theme-toggle
+        />
+        <div class="cin-switch-track">
+          <div class="cin-switch-thumb"></div>
+        </div>
+      </label>
+    </div>
+
+    <div class="pt-2">
+      <div class="text-sm font-bold text-[var(--cin-fg-base)] mb-1">
+        Cor de Destaque
+      </div>
+      <div class="text-xs text-[var(--cin-fg-dim)] mb-3">
+        Paleta de acentuação oficial do Cinnamon:
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+        {
+          MINT_ACCENTS.map((item) => (
+            <button
+              type="button"
+              data-mobile-accent-btn={item.id}
+              class="flex items-center gap-2 p-2 rounded-xl border text-left transition-all cursor-pointer border-[var(--cin-border)] bg-[var(--cin-bg-base)] hover:border-gray-400"
+            >
+              <span
+                class="w-3.5 h-3.5 rounded-full flex-shrink-0 shadow-xs"
+                style={`background-color: ${item.color};`}
+              />
+              <span class="text-xs text-[var(--cin-fg-base)] truncate">
+                {item.name.replace(" (Padrão)", "")}
+              </span>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="cin-box p-5 rounded-2xl bg-[var(--cin-bg-surface)] border border-[var(--cin-border)] space-y-3">
+    <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--cin-fg-dim)] m-0">
+      Sobre a Plataforma
+    </h2>
+
+    <div class="space-y-2 text-xs text-[var(--cin-fg-dim)] leading-relaxed">
+      <div class="flex justify-between py-1 border-b border-[var(--cin-separator)]">
+        <span class="text-[var(--cin-fg-base)] font-medium">Framework</span>
+        <span class="font-mono">Astro 7 + React 19</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-[var(--cin-separator)]">
+        <span class="text-[var(--cin-fg-base)] font-medium">Estilização</span>
+        <span class="font-mono">Cinnamon CSS + Tailwind</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-[var(--cin-separator)]">
+        <span class="text-[var(--cin-fg-base)] font-medium">Design System</span>
+        <span>Linux Mint Cinnamon Theme</span>
+      </div>
+      <div class="flex justify-between py-1">
+        <span class="text-[var(--cin-fg-base)] font-medium">Autor</span>
+        <span>Guilherme Gules Moreira</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import {
+    isDarkTheme,
+    getStoredAccent,
+    toggleTheme,
+    selectAccent,
+    THEME_CHANGE_EVENT,
+    ACCENT_CHANGE_EVENT,
+  } from "../../../utils/theme";
+
+  const SELECTED_CLASSES = [
+    "border-[var(--cin-accent)]",
+    "bg-[var(--cin-accent-subtle)]",
+    "font-bold",
+    "shadow-xs",
+  ];
+  const UNSELECTED_CLASSES = [
+    "border-[var(--cin-border)]",
+    "bg-[var(--cin-bg-base)]",
+    "hover:border-gray-400",
+  ];
+
+  function syncMobileSettingsViews() {
+    const dark = isDarkTheme();
+    const accent = getStoredAccent();
+
+    document.querySelectorAll<HTMLElement>("[data-mobile-settings-view]").forEach((root) => {
+      const iconEl = root.querySelector<HTMLElement>("[data-mobile-settings-theme-icon]");
+      const statusEl = root.querySelector<HTMLElement>("[data-mobile-settings-theme-status]");
+      const toggleInput = root.querySelector<HTMLInputElement>("[data-mobile-settings-theme-toggle]");
+
+      if (iconEl) iconEl.textContent = dark ? "🌙" : "☀️";
+      if (statusEl) statusEl.textContent = dark ? "Tema escuro ativado" : "Tema claro ativado";
+      if (toggleInput) toggleInput.checked = dark;
+
+      root.querySelectorAll<HTMLButtonElement>("[data-mobile-accent-btn]").forEach((btn) => {
+        const isSelected = btn.dataset.mobileAccentBtn === accent;
+        SELECTED_CLASSES.forEach((cls) => btn.classList.toggle(cls, isSelected));
+        UNSELECTED_CLASSES.forEach((cls) => btn.classList.toggle(cls, !isSelected));
+      });
+    });
+  }
+
+  function initMobileSettingsViews() {
+    document.querySelectorAll<HTMLElement>("[data-mobile-settings-view]").forEach((root) => {
+      if (root.dataset.initialized === "true") return;
+      root.dataset.initialized = "true";
+
+      const toggleInput = root.querySelector<HTMLInputElement>("[data-mobile-settings-theme-toggle]");
+      toggleInput?.addEventListener("change", () => {
+        toggleTheme();
+      });
+
+      root.querySelectorAll<HTMLButtonElement>("[data-mobile-accent-btn]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const accentId = btn.dataset.mobileAccentBtn;
+          if (accentId) selectAccent(accentId);
+        });
+      });
+    });
+
+    syncMobileSettingsViews();
+  }
+
+  initMobileSettingsViews();
+  window.addEventListener(THEME_CHANGE_EVENT, syncMobileSettingsViews);
+  window.addEventListener(ACCENT_CHANGE_EVENT, syncMobileSettingsViews);
+  window.addEventListener("storage", syncMobileSettingsViews);
+  document.addEventListener("astro:page-load", initMobileSettingsViews);
+</script>

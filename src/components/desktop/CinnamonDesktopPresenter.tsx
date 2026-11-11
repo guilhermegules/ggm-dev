@@ -2,11 +2,7 @@ import React from "react";
 import type { BlogPostData, WindowItem } from "./types";
 import WindowFrame from "./WindowFrame";
 import TerminalContainer from "./TerminalWindow";
-import AboutWindow from "./AboutWindow";
-import BlogWindow from "./BlogWindow";
 import ArticleWindow from "./ArticleWindow";
-import SettingsWindow from "./SettingsWindow";
-import LinksWindow from "./LinksWindow";
 
 interface CinnamonDesktopPresenterProps {
   windows: WindowItem[];
@@ -22,7 +18,11 @@ interface CinnamonDesktopPresenterProps {
     text: string;
     icon: string;
   } | null;
-  showHomeShortcut?: boolean;
+  desktopShortcuts?: React.ReactNode;
+  aboutWindow?: React.ReactNode;
+  blogWindow?: React.ReactNode;
+  settingsWindow?: React.ReactNode;
+  linksWindow?: React.ReactNode;
   onBringToFront: (winId: string) => void;
   onOpenWindow: (winId: string) => void;
   onOpenPost: (post: BlogPostData) => void;
@@ -63,7 +63,11 @@ export default function CinnamonDesktopPresenter({
   clockTime,
   isDark,
   notification,
-  showHomeShortcut = false,
+  desktopShortcuts,
+  aboutWindow,
+  blogWindow,
+  settingsWindow,
+  linksWindow,
   onBringToFront,
   onOpenWindow,
   onOpenPost,
@@ -86,91 +90,38 @@ export default function CinnamonDesktopPresenter({
       app.desc.toLowerCase().includes(menuSearch.toLowerCase())
   );
 
+  const handleWorkspaceClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    onCloseMenu();
+
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+
+    const winTrigger = target.closest<HTMLElement>("[data-window-id]");
+    if (winTrigger?.dataset.windowId) {
+      onOpenWindow(winTrigger.dataset.windowId);
+      return;
+    }
+
+    const postTrigger = target.closest<HTMLElement>("[data-open-post-id]");
+    if (postTrigger?.dataset.openPostId) {
+      const found = posts.find((p) => p.id === postTrigger.dataset.openPostId);
+      if (found) {
+        onOpenPost(found);
+      }
+    }
+  };
+
   return (
     <div className="cin-desktop relative w-screen h-screen overflow-hidden select-none">
-      {/* 1. Desktop Workspace */}
       <div
         className="cin-workspace relative w-full h-full overflow-hidden"
-        onClick={onCloseMenu}
+        onClick={handleWorkspaceClick}
       >
-        {/* Desktop Shortcuts Grid */}
-        <div className="cin-desktop-grid">
-          {showHomeShortcut && (
-            <a
-              href="/"
-              className="cin-desktop-icon no-underline"
-              title="Voltar para a página inicial"
-            >
-              <div className="cin-desktop-icon-img text-3xl">🏠</div>
-              <div className="cin-desktop-icon-label">Início</div>
-            </a>
-          )}
+        {desktopShortcuts}
 
-          <div
-            className="cin-desktop-icon"
-            onDoubleClick={() => onOpenWindow("about")}
-            onClick={() => onOpenWindow("about")}
-            title="Clique para abrir Sobre Mim"
-          >
-            <div className="cin-desktop-icon-img text-3xl">👤</div>
-            <div className="cin-desktop-icon-label">Sobre Mim</div>
-          </div>
-
-          <div
-            className="cin-desktop-icon"
-            onDoubleClick={() => onOpenWindow("blog")}
-            onClick={() => onOpenWindow("blog")}
-            title="Clique para abrir o Blog"
-          >
-            <div className="cin-desktop-icon-img text-3xl">📚</div>
-            <div className="cin-desktop-icon-label">Blog</div>
-          </div>
-
-          <div
-            className="cin-desktop-icon"
-            onDoubleClick={() => onOpenWindow("terminal")}
-            onClick={() => onOpenWindow("terminal")}
-            title="Clique para abrir o Terminal"
-          >
-            <div className="cin-desktop-icon-img text-3xl">⌨️</div>
-            <div className="cin-desktop-icon-label">Terminal</div>
-          </div>
-
-          <div
-            className="cin-desktop-icon"
-            onDoubleClick={() => onOpenWindow("settings")}
-            onClick={() => onOpenWindow("settings")}
-            title="Clique para abrir Configurações"
-          >
-            <div className="cin-desktop-icon-img text-3xl">⚙️</div>
-            <div className="cin-desktop-icon-label">Configurações</div>
-          </div>
-
-          <div
-            className="cin-desktop-icon"
-            onDoubleClick={() => onOpenWindow("links")}
-            onClick={() => onOpenWindow("links")}
-            title="Clique para abrir Links"
-          >
-            <div className="cin-desktop-icon-img text-3xl">🔗</div>
-            <div className="cin-desktop-icon-label">Projetos</div>
-          </div>
-
-          <a
-            href="/files/curriculo-guilhermegulesmoreira.pdf"
-            download
-            className="cin-desktop-icon no-underline"
-            title="Baixar Currículo em PDF"
-          >
-            <div className="cin-desktop-icon-img text-3xl">📄</div>
-            <div className="cin-desktop-icon-label">Currículo</div>
-          </a>
-        </div>
-
-        {/* 2. Floating Windows (Multiple Tabs & Windows Open at Same Time) */}
         {windows.map((win) => {
-          if (!win.isOpen) return null;
-          const isActive = activeWindowId === win.id && !win.isMinimized;
+          if (win.type === "post" && !win.isOpen) return null;
+          const isActive = activeWindowId === win.id && win.isOpen && !win.isMinimized;
 
           return (
             <WindowFrame
@@ -185,7 +136,7 @@ export default function CinnamonDesktopPresenter({
                 onTitlebarMouseDown(win.id, win.x, win.y, win.isMaximized, e)
               }
             >
-              {win.type === "about" && <AboutWindow />}
+              {win.type === "about" && aboutWindow}
               {win.type === "terminal" && (
                 <TerminalContainer
                   posts={posts}
@@ -193,11 +144,9 @@ export default function CinnamonDesktopPresenter({
                   onOpenPost={onOpenPost}
                 />
               )}
-              {win.type === "blog" && (
-                <BlogWindow posts={posts} onOpenPost={onOpenPost} />
-              )}
-              {win.type === "settings" && <SettingsWindow />}
-              {win.type === "links" && <LinksWindow />}
+              {win.type === "blog" && blogWindow}
+              {win.type === "settings" && settingsWindow}
+              {win.type === "links" && linksWindow}
               {win.type === "post" && win.postData && (
                 <ArticleWindow
                   post={win.postData}
@@ -208,7 +157,6 @@ export default function CinnamonDesktopPresenter({
           );
         })}
 
-        {/* 3. Cinnamon Start Menu */}
         {isMenuOpen && (
           <div
             className="cin-app-menu"
@@ -216,7 +164,6 @@ export default function CinnamonDesktopPresenter({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="cin-app-menu-body">
-              {/* Left Action Buttons */}
               <aside className="cin-menu-favorites">
                 <div className="cin-menu-favorites-group">
                   <button
@@ -280,7 +227,6 @@ export default function CinnamonDesktopPresenter({
                 </div>
               </aside>
 
-              {/* Application Items */}
               <div className="cin-menu-applications flex-1 overflow-y-auto p-2">
                 {filteredMenuApps.map((item) => (
                   <div
@@ -299,7 +245,6 @@ export default function CinnamonDesktopPresenter({
                   </div>
                 ))}
 
-                {/* Direct quick links to articles in start menu */}
                 <div className="mt-2 pt-2 border-t border-[var(--cin-separator)]">
                   <div className="px-2 py-1 text-[11px] font-bold text-[var(--cin-fg-dim)] uppercase">
                     Artigos Recentes
@@ -324,7 +269,6 @@ export default function CinnamonDesktopPresenter({
               </div>
             </div>
 
-            {/* Bottom Search Bar */}
             <footer className="cin-menu-search">
               <input
                 type="text"
@@ -338,7 +282,6 @@ export default function CinnamonDesktopPresenter({
           </div>
         )}
 
-        {/* 4. Desktop Notification Toast */}
         {notification && (
           <div className="cin-notification">
             <div className="cin-notification-icon text-xl">{notification.icon}</div>
@@ -356,9 +299,7 @@ export default function CinnamonDesktopPresenter({
         )}
       </div>
 
-      {/* 5. Cinnamon Bottom Taskbar (The OS Panel) */}
       <footer className="cin-panel flex items-center justify-between px-1">
-        {/* Left: Start Menu Button & Running Windows Tabs */}
         <div className="cin-panel-left flex items-center gap-1 overflow-x-auto flex-1 max-w-[calc(100%-160px)]">
           <button
             type="button"
@@ -377,7 +318,6 @@ export default function CinnamonDesktopPresenter({
             <span className="hidden sm:inline">Menu</span>
           </button>
 
-          {/* Running Windows Taskbar Tabs */}
           <div className="cin-panel-tasks flex items-center gap-1 overflow-x-auto">
             {windows
               .filter((w) => w.isOpen)
@@ -399,9 +339,7 @@ export default function CinnamonDesktopPresenter({
           </div>
         </div>
 
-        {/* Right: System Tray & Clock Applet */}
         <div className="cin-panel-right flex items-center gap-1 flex-shrink-0">
-          {/* Notifications Applet */}
           <div
             className="cin-panel-applet text-sm cursor-pointer"
             title="Notificações"
@@ -415,7 +353,6 @@ export default function CinnamonDesktopPresenter({
             🔔
           </div>
 
-          {/* Dark Mode Switch in Tray */}
           <div className="cin-panel-applet" title="Alternar Modo Escuro">
             <label className="cin-switch cin-switch-sm cursor-pointer mb-0">
               <input
@@ -430,12 +367,10 @@ export default function CinnamonDesktopPresenter({
             </label>
           </div>
 
-          {/* Live Clock Applet */}
           <div className="cin-panel-applet cin-panel-clock font-mono text-xs">
             {clockTime || "--:--"}
           </div>
 
-          {/* Show Desktop Peek Button */}
           <div
             className="cin-panel-show-desktop"
             title="Mostrar Área de Trabalho"

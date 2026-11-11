@@ -69,16 +69,8 @@ const { title, description, image = "/blog-cover-default.png" } = Astro.props;
     })();
 </script>
 <script>
-    import { SITE_THEME_KEY, SITE_ACCENT_KEY, DARK_THEME } from "../consts";
+    import { applyThemeToDom, applyAccentToDom, getStoredTheme, getStoredAccent } from "../utils/theme";
 
-    const theme = localStorage.getItem(SITE_THEME_KEY) ?? "light";
-    const accent = localStorage.getItem(SITE_ACCENT_KEY) ?? "mint";
-    document.body.classList.add("cin-body");
-    document.body.setAttribute("data-theme", theme);
-    document.body.setAttribute("data-accent", accent);
-    if (theme === DARK_THEME) {
-        document.body.classList.add("dark", "cin-dark");
-    } else {
-        document.body.classList.remove("dark", "cin-dark");
-    }
+    applyThemeToDom(getStoredTheme());
+    applyAccentToDom(getStoredAccent());
 </script>

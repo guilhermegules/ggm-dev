@@ -1,0 +1,208 @@
+---
+import { MINT_ACCENTS } from "../../utils/theme";
+---
+
+<cin-settings-window class="flex flex-col h-full bg-[var(--cin-bg-base)] text-[var(--cin-fg-base)] overflow-hidden">
+  <div class="cin-tabs bg-[var(--cin-bg-surface)] px-4 pt-2 border-b border-[var(--cin-separator)]">
+    <button
+      type="button"
+      data-settings-tab-btn="appearance"
+      class="cin-tab is-active"
+    >
+      🎨 Aparência & Cores
+    </button>
+    <button
+      type="button"
+      data-settings-tab-btn="info"
+      class="cin-tab"
+    >
+      ℹ️ Sobre o Sistema
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-6 space-y-6">
+    <div data-settings-tab-panel="appearance" class="space-y-6">
+      <div class="cin-pref-card">
+        <div class="cin-pref-row">
+          <div class="cin-pref-icon text-xl" data-settings-theme-icon>☀️</div>
+          <div class="cin-pref-info">
+            <div class="cin-pref-title">Modo Escuro (Dark Theme)</div>
+            <div class="cin-pref-desc">
+              Alternar entre tema visual claro e escuro do Cinnamon
+            </div>
+          </div>
+          <div class="cin-pref-action">
+            <label class="cin-switch cursor-pointer">
+              <input
+                type="checkbox"
+                class="cin-switch-input"
+                data-settings-theme-toggle
+              />
+              <div class="cin-switch-track">
+                <div class="cin-switch-thumb"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cin-box p-4 rounded-lg bg-[var(--cin-bg-surface)]">
+        <h3 class="text-sm font-bold mb-1 text-[var(--cin-fg-base)]">
+          Cor de Destaque (Mint Accents)
+        </h3>
+        <p class="text-xs text-[var(--cin-fg-dim)] mb-4">
+          Selecione a paleta de acentuação oficial do Linux Mint:
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          {
+            MINT_ACCENTS.map((item) => (
+              <button
+                type="button"
+                data-settings-accent-btn={item.id}
+                class="flex items-center gap-2 p-2 rounded-md border text-left cursor-pointer transition-all border-[var(--cin-border)] bg-[var(--cin-bg-base)] hover:border-gray-400"
+              >
+                <span
+                  class="w-4 h-4 rounded-full flex-shrink-0 shadow-sm"
+                  style={`background-color: ${item.color};`}
+                />
+                <span class="text-xs text-[var(--cin-fg-base)] truncate">
+                  {item.name}
+                </span>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div
+      data-settings-tab-panel="info"
+      class="hidden cin-box p-6 rounded-lg bg-[var(--cin-bg-surface)] text-center space-y-4"
+    >
+      <div class="text-4xl">🌿</div>
+      <div>
+        <h2 class="text-xl font-bold m-0 text-[var(--cin-fg-base)]">
+          Linux Mint Cinnamon (Web OS)
+        </h2>
+        <p class="text-xs text-[var(--cin-fg-dim)] mt-1">
+          Ambiente de desktop simulado com a biblioteca oficial <strong>Cinnamon CSS</strong>.
+        </p>
+      </div>
+
+      <div class="text-left text-xs space-y-2 border-t border-[var(--cin-separator)] pt-4 font-mono max-w-sm mx-auto text-[var(--cin-fg-dim)]">
+        <div class="flex justify-between">
+          <span>Versão do Cinnamon:</span>
+          <span class="text-[var(--cin-fg-base)]">6.2 (Wilma Edition)</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Biblioteca de Estilos:</span>
+          <span class="text-[var(--cin-accent)] font-bold">cinnamon-css 0.0.1</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Framework Web:</span>
+          <span class="text-[var(--cin-fg-base)]">Astro 7.0 + React 19</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Desenvolvedor:</span>
+          <span class="text-[var(--cin-fg-base)]">Guilherme Gules Moreira</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cin-window-statusbar text-xs px-3 py-1 bg-[var(--cin-bg-surface)] border-t border-[var(--cin-separator)] text-[var(--cin-fg-dim)] flex justify-between">
+    <span>Aparência: Mint-Y Design System</span>
+    <span>Linux Mint Cinnamon</span>
+  </div>
+</cin-settings-window>
+
+<script>
+  import {
+    isDarkTheme,
+    getStoredAccent,
+    toggleTheme,
+    selectAccent,
+    THEME_CHANGE_EVENT,
+    ACCENT_CHANGE_EVENT,
+  } from "../../utils/theme";
+
+  const SELECTED_CLASSES = [
+    "border-[var(--cin-accent)]",
+    "bg-[var(--cin-accent-subtle)]",
+    "font-bold",
+  ];
+  const UNSELECTED_CLASSES = [
+    "border-[var(--cin-border)]",
+    "bg-[var(--cin-bg-base)]",
+    "hover:border-gray-400",
+  ];
+
+  class CinSettingsWindowElement extends HTMLElement {
+    private syncState = () => {
+      const dark = isDarkTheme();
+      const accent = getStoredAccent();
+
+      const iconEl = this.querySelector<HTMLElement>("[data-settings-theme-icon]");
+      const toggleInput = this.querySelector<HTMLInputElement>("[data-settings-theme-toggle]");
+
+      if (iconEl) iconEl.textContent = dark ? "🌙" : "☀️";
+      if (toggleInput) toggleInput.checked = dark;
+
+      this.querySelectorAll<HTMLButtonElement>("[data-settings-accent-btn]").forEach((btn) => {
+        const isSelected = btn.dataset.settingsAccentBtn === accent;
+        SELECTED_CLASSES.forEach((cls) => btn.classList.toggle(cls, isSelected));
+        UNSELECTED_CLASSES.forEach((cls) => btn.classList.toggle(cls, !isSelected));
+      });
+    };
+
+    private handleClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      const tabBtn = target.closest<HTMLButtonElement>("[data-settings-tab-btn]");
+      if (tabBtn) {
+        const tabId = tabBtn.dataset.settingsTabBtn;
+        this.querySelectorAll<HTMLButtonElement>("[data-settings-tab-btn]").forEach((btn) => {
+          btn.classList.toggle("is-active", btn.dataset.settingsTabBtn === tabId);
+        });
+        this.querySelectorAll<HTMLElement>("[data-settings-tab-panel]").forEach((panel) => {
+          panel.classList.toggle("hidden", panel.dataset.settingsTabPanel !== tabId);
+        });
+        return;
+      }
+
+      const accentBtn = target.closest<HTMLButtonElement>("[data-settings-accent-btn]");
+      if (accentBtn?.dataset.settingsAccentBtn) {
+        selectAccent(accentBtn.dataset.settingsAccentBtn);
+      }
+    };
+
+    private handleChange = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (target.matches("[data-settings-theme-toggle]")) {
+        toggleTheme();
+      }
+    };
+
+    connectedCallback() {
+      this.addEventListener("click", this.handleClick);
+      this.addEventListener("change", this.handleChange);
+      window.addEventListener(THEME_CHANGE_EVENT, this.syncState);
+      window.addEventListener(ACCENT_CHANGE_EVENT, this.syncState);
+      window.addEventListener("storage", this.syncState);
+      this.syncState();
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener("click", this.handleClick);
+      this.removeEventListener("change", this.handleChange);
+      window.removeEventListener(THEME_CHANGE_EVENT, this.syncState);
+      window.removeEventListener(ACCENT_CHANGE_EVENT, this.syncState);
+      window.removeEventListener("storage", this.syncState);
+    }
+  }
+
+  if (typeof window !== "undefined" && !customElements.get("cin-settings-window")) {
+    customElements.define("cin-settings-window", CinSettingsWindowElement);
+  }
+</script>

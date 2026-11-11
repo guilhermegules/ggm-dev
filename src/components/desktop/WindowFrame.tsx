@@ -32,7 +32,7 @@ export default function WindowFrame({
         win.isMaximized ? "is-maximized" : ""
       }`}
       style={{
-        display: win.isMinimized ? "none" : "flex",
+        display: !win.isOpen || win.isMinimized ? "none" : "flex",
         zIndex: win.zIndex,
         left: win.isMaximized ? 0 : isMobile ? 8 : win.x,
         top: win.isMaximized ? 0 : isMobile ? 8 : win.y,

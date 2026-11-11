@@ -1,0 +1,68 @@
+---
+import type { BlogPostData } from "./types";
+import CinnamonDesktopManager from "./CinnamonDesktop";
+import DesktopShortcuts from "./DesktopShortcuts.astro";
+import AboutWindow from "./AboutWindow.astro";
+import BlogWindow from "./BlogWindow.astro";
+import SettingsWindow from "./SettingsWindow.astro";
+import LinksWindow from "./LinksWindow.astro";
+import MobileTabletLayout from "../mobile/MobileTabletLayout.astro";
+
+interface Props {
+  posts: BlogPostData[];
+  initialWindow?: string;
+  initialPostSlug?: string;
+  showHomeShortcut?: boolean;
+}
+
+const {
+  posts,
+  initialWindow,
+  initialPostSlug,
+  showHomeShortcut = false,
+} = Astro.props;
+
+const postMetas: BlogPostData[] = posts.map(
+  ({ id, title, description, pubDate, heroImage }) => ({
+    id,
+    title,
+    description,
+    pubDate,
+    heroImage,
+  })
+);
+---
+
+<div class="hidden lg:block w-full h-full">
+  <CinnamonDesktopManager
+    client:media="(min-width: 1024px)"
+    posts={postMetas}
+    initialWindow={initialWindow}
+    initialPostSlug={initialPostSlug}
+  >
+    <DesktopShortcuts
+      slot="desktopShortcuts"
+      showHomeShortcut={showHomeShortcut}
+    />
+    <AboutWindow slot="aboutWindow" />
+    <BlogWindow slot="blogWindow" posts={postMetas} />
+    <SettingsWindow slot="settingsWindow" />
+    <LinksWindow slot="linksWindow" />
+  </CinnamonDesktopManager>
+
+  {
+    posts.map(
+      (post) =>
+        post.html && (
+          <template data-post-template={post.id} set:html={post.html} />
+        )
+    )
+  }
+</div>
+
+<div class="block lg:hidden min-h-screen">
+  <MobileTabletLayout
+    posts={postMetas}
+    initialTab={initialWindow === "blog" ? "blog" : "about"}
+  />
+</div>
